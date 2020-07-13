@@ -74,7 +74,7 @@ This app allows the user to represent their fridge/pantry and its contents virtu
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="https://imgur.com/a/24jeGSj" width=600>
+<img src="https://imgur.com/a/24jeGSj.png" width=600>
 
 ## Schema 
 
