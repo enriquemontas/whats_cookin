@@ -1,4 +1,4 @@
-package com.example.whatscookin;
+package com.example.whatscookin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
