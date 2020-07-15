@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.whatscookin.R;
 import com.example.whatscookin.databinding.ActivityMainBinding;
+import com.example.whatscookin.fragments.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         // define your fragments
-//        final Fragment fragment1 = new HomeFragment();
-//        final Fragment fragment2 = new ViewCalorieFragment();
+        final Fragment fragment1 = new HomeFragment();
+//        final Fragment fragment2 = new CalorieFragment();
 //        final Fragment fragment3 = new RecipeFragment();
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -43,19 +44,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
                         Toast.makeText(MainActivity.this,"HOME!", Toast.LENGTH_SHORT).show();
-//                        fragment = fragment1;
+                        fragment = fragment1;
                         break;
                     case R.id.action_caloire_view:
                         Toast.makeText(MainActivity.this,"Cal View!", Toast.LENGTH_SHORT).show();
-//                        fragment = fragment2;
+                        fragment = fragment1;
                         break;
                     case R.id.action_recipe:
                     default:
                         Toast.makeText(MainActivity.this,"Recipe!", Toast.LENGTH_SHORT).show();
-//                        fragment = fragment3;
+                        fragment = fragment1;
                         break;
                 }
-//                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragContainer, fragment).commit();
                 return true;
             }
         });
