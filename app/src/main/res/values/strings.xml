@@ -5,4 +5,8 @@
     <string name="sign_up">Sign Up</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="what_food_is_this">What food is this?</string>
+    <string name="add_to_fridge">Add to Fridge</string>
+    <string name="back_to_your_fridge">Back to your Fridge</string>
 </resources>
