@@ -6,6 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.whatscookin.Food;
+import com.example.whatscookin.FoodAdapter;
 import com.example.whatscookin.R;
 import com.example.whatscookin.activities.AddFoodActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
@@ -22,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +38,9 @@ public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
     public static final int QUERY_LIMIT = 20;
     FragmentHomeBinding binding;
+    private RecyclerView rvFridge;
+    private FoodAdapter adapter;
+    private List<Food> fridge;
 
 
     public HomeFragment() {
@@ -62,6 +70,14 @@ public class HomeFragment extends Fragment {
                 getContext().startActivity(intent);
             }
         });
+
+        rvFridge = binding.rvFridge;
+
+        fridge = new ArrayList<>();
+        adapter = new FoodAdapter(getContext(), fridge);
+        rvFridge.setAdapter(adapter);
+        rvFridge.setLayoutManager(new GridLayoutManager(getContext(), 3));
+
         queryFridge();
     }
 
@@ -81,6 +97,8 @@ public class HomeFragment extends Fragment {
                 for (Food food : foodList){
                     Log.i(TAG, "Food: " + food.getName());
                 }
+                fridge.addAll(foodList);
+                adapter.notifyDataSetChanged();
             }
         });
     }

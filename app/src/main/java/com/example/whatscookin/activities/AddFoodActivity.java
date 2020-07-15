@@ -76,6 +76,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(name, currentUser, photoFile);
+                goMainActivity();
             }
         });
 
@@ -90,7 +91,7 @@ public class AddFoodActivity extends AppCompatActivity {
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(AddFoodActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(AddFoodActivity.this, "com.example.whatscookin", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -150,5 +151,11 @@ public class AddFoodActivity extends AppCompatActivity {
                 ivFoodImage.setImageResource(0);
             }
         });
+    }
+
+    private void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }
