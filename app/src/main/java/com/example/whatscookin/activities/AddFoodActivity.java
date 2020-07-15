@@ -76,7 +76,6 @@ public class AddFoodActivity extends AppCompatActivity {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(name, currentUser, photoFile);
-                goMainActivity();
             }
         });
 
@@ -151,11 +150,5 @@ public class AddFoodActivity extends AppCompatActivity {
                 ivFoodImage.setImageResource(0);
             }
         });
-    }
-
-    private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
     }
 }

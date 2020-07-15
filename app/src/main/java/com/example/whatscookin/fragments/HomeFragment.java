@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = "HomeFragment";
     public static final int QUERY_LIMIT = 20;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvFridge;
     private FoodAdapter adapter;
     private List<Food> fridge;
+    SwipeRefreshLayout swipeLayout;
 
 
     public HomeFragment() {
@@ -78,6 +80,9 @@ public class HomeFragment extends Fragment {
         rvFridge.setAdapter(adapter);
         rvFridge.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
+        swipeLayout = binding.swipeContainer;
+        swipeLayout.setOnRefreshListener(this);
+
         queryFridge();
     }
 
@@ -101,5 +106,12 @@ public class HomeFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        fridge.clear();
+        queryFridge();
+        swipeLayout.setRefreshing(false);
     }
 }
