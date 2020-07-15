@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.example.whatscookin.Food;
 import com.example.whatscookin.R;
+import com.example.whatscookin.activities.AddFoodActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddFoodActivity.class);
+                getContext().startActivity(intent);
             }
         });
         queryFridge();
