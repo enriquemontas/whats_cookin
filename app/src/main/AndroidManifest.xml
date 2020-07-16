@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.codepath.fileprovider"
+            android:authorities="com.example.whatscookin"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
