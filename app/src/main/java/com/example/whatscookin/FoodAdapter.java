@@ -1,6 +1,7 @@
 package com.example.whatscookin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whatscookin.activities.FoodDetailActivity;
 import com.example.whatscookin.databinding.ItemFoodBinding;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -49,18 +53,30 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView ivFood;
 
         public ViewHolder(@NonNull View itemView) {
             super(binding.getRoot());
             ivFood = binding.ivFood;
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Food food) {
             ParseFile image = food.getImage();
             Glide.with(context).load(image.getUrl()).into(ivFood);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Food food = foodList.get(position);
+                Intent intent = new Intent(context, FoodDetailActivity.class);
+                intent.putExtra(Food.class.getSimpleName(), Parcels.wrap(food));
+                context.startActivity(intent);
+            }
         }
     }
 }
