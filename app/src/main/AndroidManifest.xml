@@ -14,6 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.FoodDetailActivity"></activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.whatscookin"
@@ -24,7 +26,7 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".activities.AddFoodActivity"></activity>
+        <activity android:name=".activities.AddFoodActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

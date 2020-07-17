@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +17,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +28,9 @@ import com.example.whatscookin.Food;
 import com.example.whatscookin.FoodAdapter;
 import com.example.whatscookin.R;
 import com.example.whatscookin.activities.AddFoodActivity;
+import com.example.whatscookin.activities.MainActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
+import com.example.whatscookin.databinding.ToolbarBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -35,6 +44,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+    // TODO: Fix toolbar in this fragment
 
     public static final String TAG = "HomeFragment";
     public static final int QUERY_LIMIT = 20;
@@ -49,6 +59,75 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                //perform query here
+                searchFridge(s);
+
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        searchItem.expandActionView();
+        searchView.requestFocus();
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // Handle this selection
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void searchFridge(String s) {
+        ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
+        query.include(Food.KEY_OWNER);
+        query.whereEqualTo(Food.KEY_OWNER, ParseUser.getCurrentUser());
+        query.whereContains(Food.KEY_NAME, s);
+        query.setLimit(QUERY_LIMIT);
+        query.addAscendingOrder(Food.KEY_NAME);
+        query.findInBackground(new FindCallback<Food>() {
+            @Override
+            public void done(List<Food> foodList, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "something went wrong in the query", e);
+                    return;
+                }
+                for (Food food : foodList){
+                    Log.i(TAG, "Food: " + food.getName());
+                }
+                fridge.addAll(foodList);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
