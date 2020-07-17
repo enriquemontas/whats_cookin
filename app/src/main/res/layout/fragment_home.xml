@@ -8,10 +8,13 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <include layout="@layout/toolbar" />
+
     <Button
         android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:text="Button"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,7 +22,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFridge"
