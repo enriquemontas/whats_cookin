@@ -1,16 +1,19 @@
 package com.example.whatscookin;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whatscookin.databinding.ItemFoodRecipeBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
@@ -18,10 +21,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     Context context;
     List<Food> fridge;
     ItemFoodRecipeBinding binding;
+    List<String> ingredients;
 
     public RecipeAdapter(Context context, List<Food> fridge) {
         this.context = context;
         this.fridge = fridge;
+        ingredients = new ArrayList<>();
     }
 
     @NonNull
@@ -43,7 +48,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         return fridge.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener{
 
         private CheckBox checkBox;
 
@@ -54,6 +63,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         public void bind(Food food) {
             checkBox.setText(food.getName());
+            checkBox.setOnCheckedChangeListener(this);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b){
+                ingredients.add(compoundButton.getText().toString());
+            } else {
+                ingredients.remove(compoundButton.getText().toString());
+            }
         }
     }
 }

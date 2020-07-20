@@ -12,12 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.whatscookin.Food;
 import com.example.whatscookin.R;
 import com.example.whatscookin.RecipeAdapter;
 import com.example.whatscookin.databinding.FragmentCalorieIntakeBinding;
 import com.example.whatscookin.databinding.FragmentRecipeLookupBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -37,6 +40,8 @@ public class RecipeLookupFragment extends Fragment {
     RecyclerView rvFood;
     RecipeAdapter adapter;
     List<Food> fridge;
+    FloatingActionButton fabSearch;
+    List<String> ingredients;
 
     public RecipeLookupFragment() {
         // Required empty public constructor
@@ -53,6 +58,7 @@ public class RecipeLookupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvFood = binding.rvFood;
+        fabSearch = binding.fabSearch;
         fridge = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), fridge);
         rvFood.setAdapter(adapter);
@@ -60,6 +66,19 @@ public class RecipeLookupFragment extends Fragment {
         rvFood.setLayoutManager(layoutManager);
 
         queryFridge();
+
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "search", Toast.LENGTH_SHORT).show();
+                ingredients = adapter.getIngredients();
+                Log.i(TAG, String.valueOf(ingredients.size()));
+//                for (String s : ingredients){
+//                    Log.i(TAG, s);
+//                }
+            }
+        });
+
     }
 
     private void queryFridge() {
@@ -83,6 +102,5 @@ public class RecipeLookupFragment extends Fragment {
             }
         });
     }
-
 
 }
