@@ -14,6 +14,7 @@ import com.example.whatscookin.R;
 import com.example.whatscookin.databinding.ActivityMainBinding;
 import com.example.whatscookin.fragments.CalorieIntakeFragment;
 import com.example.whatscookin.fragments.HomeFragment;
+import com.example.whatscookin.fragments.RecipeLookupFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         // define your fragments
         final Fragment fragment1 = new HomeFragment();
         final Fragment fragment2 = new CalorieIntakeFragment();
-//        final Fragment fragment3 = new RecipeFragment();
+        final Fragment fragment3 = new RecipeLookupFragment();
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_recipe:
                     default:
                         Toast.makeText(MainActivity.this,"Recipe!", Toast.LENGTH_SHORT).show();
-                        fragment = fragment1;
+                        fragment = fragment3;
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.fragContainer, fragment).commit();

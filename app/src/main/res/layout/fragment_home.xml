@@ -8,8 +8,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <include layout="@layout/toolbar" />
-
     <Button
         android:id="@+id/btn"
         android:layout_width="match_parent"

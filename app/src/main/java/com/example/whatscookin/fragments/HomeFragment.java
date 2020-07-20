@@ -30,7 +30,6 @@ import com.example.whatscookin.R;
 import com.example.whatscookin.activities.AddFoodActivity;
 import com.example.whatscookin.activities.MainActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
-import com.example.whatscookin.databinding.ToolbarBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
