@@ -5,13 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -28,9 +25,7 @@ import com.example.whatscookin.Food;
 import com.example.whatscookin.FoodAdapter;
 import com.example.whatscookin.R;
 import com.example.whatscookin.activities.AddFoodActivity;
-import com.example.whatscookin.activities.MainActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
-import com.example.whatscookin.databinding.ToolbarBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -44,7 +39,6 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
-    // TODO: Fix toolbar in this fragment
 
     public static final String TAG = "HomeFragment";
     public static final int QUERY_LIMIT = 20;
@@ -107,6 +101,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void searchFridge(String s) {
+        fridge.clear();
         ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
         query.include(Food.KEY_OWNER);
         query.whereEqualTo(Food.KEY_OWNER, ParseUser.getCurrentUser());

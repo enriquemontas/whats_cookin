@@ -18,7 +18,7 @@ public class ParseApplication extends Application {
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("enriquemontas-whats-cookin") // should correspond to APP_ID env variable
-                .clientKey(getString(R.string.key))  // set explicitly unless clientKey is explicitly configured on Parse server
+                .clientKey(Keys.getParseKey())  // set explicitly unless clientKey is explicitly configured on Parse server
                 .server("https://enriquemontas-whats-cookin.herokuapp.com/parse/").build());
     }
 }
