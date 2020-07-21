@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.FoodDetailActivity"></activity>
+        <activity android:name=".activities.RecipeViewActivity"></activity>
+        <activity android:name=".activities.FoodDetailActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
