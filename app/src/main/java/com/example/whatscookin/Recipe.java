@@ -1,5 +1,9 @@
 package com.example.whatscookin;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
@@ -38,9 +42,8 @@ public class Recipe {
         return url;
     }
 
-    public List<String> getIngredientLines() {
-        return ingredientLines;
-    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String getIngredientLines() { return String.join("\n", ingredientLines); }
 
     public String getCalories() {
         return calories;

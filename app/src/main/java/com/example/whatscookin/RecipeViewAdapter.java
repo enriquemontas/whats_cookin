@@ -1,6 +1,7 @@
 package com.example.whatscookin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whatscookin.activities.RecipeDetailActivity;
+import com.example.whatscookin.activities.RecipeViewActivity;
 import com.example.whatscookin.databinding.ItemRecipeBinding;
 
-import org.w3c.dom.Text;
+import org.parceler.Parcels;
 
 import java.util.List;
+
 
 public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.ViewHolder> {
 
@@ -45,7 +49,7 @@ public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.Vi
     @Override
     public int getItemCount() { return recipes.size(); }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView ivRecipe;
         private TextView tvTitle;
@@ -58,6 +62,7 @@ public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.Vi
             tvTitle = binding.tvTitle;
             tvCalories = binding.tvCalories;
             tvServings = binding.tvServings;
+            itemView.setOnClickListener(this);
 
         }
 
@@ -67,6 +72,19 @@ public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.Vi
             tvServings.setText(recipe.getServings());
             Glide.with(context).load(recipe.getImage()).into(ivRecipe);
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION){
+                Recipe recipe = recipes.get(position);
+                Intent intent = new Intent(context.getApplicationContext(), RecipeDetailActivity.class);
+                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Recipe.class.getSimpleName(), Parcels.wrap(recipe));
+                context.getApplicationContext().startActivity(intent);
+
+            }
         }
     }
 }
