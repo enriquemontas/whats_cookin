@@ -25,6 +25,8 @@ public class FoodDetailActivity extends AppCompatActivity {
     ImageView ivImage;
     TextView tvName;
     TextView tvCalorieCount;
+    TextView tvCurrentQuantity;
+    TextView tvQuantityUnits;
     TextView tvBarcode;
     Button btnEdit;
     Button btnCancel;
@@ -46,6 +48,8 @@ public class FoodDetailActivity extends AppCompatActivity {
         ivImage = binding.ivImage;
         tvName = binding.tvName;
         tvCalorieCount = binding.tvCalorieCount;
+        tvCurrentQuantity = binding.tvCurrentQuantity;
+        tvQuantityUnits = binding.tvQuantityUnits;
         tvBarcode = binding.tvBarcode;
         btnEdit = binding.btnEdit;
         btnCancel = binding.btnCancel;
@@ -59,6 +63,8 @@ public class FoodDetailActivity extends AppCompatActivity {
 
         tvName.setText(food.getName());
         tvCalorieCount.setText(String.valueOf(food.getCalories()) + " per " + food.getServingSize());
+        tvCurrentQuantity.setText(String.valueOf(food.getCurrentQuantity()));
+        tvQuantityUnits.setText(food.getQuantityUnit());
         tvBarcode.setText(String.valueOf(food.getBarcode()));
         Context context = getApplicationContext();
         Glide.with(context).load(food.getImage().getUrl()).into(ivImage);

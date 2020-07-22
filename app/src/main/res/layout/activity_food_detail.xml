@@ -31,10 +31,27 @@
         android:layout_marginTop="5dp" />
 
     <TextView
+        android:id="@+id/tvCurrentQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCalorieCount"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tvQuantityUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tvCurrentQuantity"
+        android:layout_below="@+id/tvCalorieCount"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
         android:id="@+id/tvBarcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCalorieCount"
+        android:layout_below="@+id/tvCurrentQuantity"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp" />
 
