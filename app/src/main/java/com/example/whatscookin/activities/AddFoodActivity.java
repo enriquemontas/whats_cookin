@@ -37,6 +37,8 @@ public class AddFoodActivity extends AppCompatActivity {
     private Button btnCaptureImage;
     private Button btnAdd;
     private EditText etName;
+    private EditText etQuantity;
+    private EditText etQuantityUnit;
     private ImageView ivFoodImage;
     private File photoFile;
     public String photoFileName = "photo.jpg";
@@ -49,10 +51,12 @@ public class AddFoodActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        // need to comeback to add barcode scanner
+        // TODO add barcode scanner
         btnCaptureImage = binding.btnCaptureImage;
         btnAdd = binding.btnAdd;
         etName = binding.etName;
+        etQuantity = binding.etQuantity;
+        etQuantityUnit = binding.etQuantityUnit;
         ivFoodImage = binding.ivFoodImage;
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +70,8 @@ public class AddFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = etName.getText().toString();
+                int quantity = Integer.parseInt(etQuantity.getText().toString());
+                String quantityUnit = etQuantityUnit.getText().toString();
                 if (name.isEmpty()) {
                     Toast.makeText(AddFoodActivity.this, "Add a name", Toast.LENGTH_SHORT).show();
                     return;
@@ -75,7 +81,7 @@ public class AddFoodActivity extends AppCompatActivity {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(name, currentUser, photoFile);
+                savePost(name, currentUser, photoFile, quantity, quantityUnit);
             }
         });
 
@@ -133,11 +139,14 @@ public class AddFoodActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    private void savePost(String name, ParseUser currentUser, File photoFile) {
+    private void savePost(String name, ParseUser currentUser, File photoFile, int quantity, String quantityUnit) {
         Food food = new Food();
         food.setName(name);
         food.setOwner(currentUser);
         food.setImage(new ParseFile(photoFile));
+        food.setCurrentQuantity(quantity);
+        food.setOriginalQuantity(quantity);
+        food.setQuantityUnit(quantityUnit);
         food.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -147,6 +156,8 @@ public class AddFoodActivity extends AppCompatActivity {
                 }
                 Log.i(TAG, "saving was successful");
                 etName.setText("");
+                etQuantity.setText("");
+                etQuantityUnit.setText("");
                 ivFoodImage.setImageResource(0);
             }
         });
