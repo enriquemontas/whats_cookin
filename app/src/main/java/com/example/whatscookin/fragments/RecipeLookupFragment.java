@@ -96,7 +96,7 @@ public class RecipeLookupFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ingredients = adapter.getIngredients();
-                queryString = String.join("%20", ingredients);
+                queryString = String.join(" and ", ingredients);
 //                Log.i(TAG, String.valueOf(ingredients.size()));
                 search();
             }
