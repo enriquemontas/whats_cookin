@@ -7,16 +7,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.whatscookin.R;
 import com.example.whatscookin.activities.LoginActivity;
 import com.example.whatscookin.databinding.FragmentCalorieIntakeBinding;
+import com.example.whatscookin.databinding.PopupCalorieGoalBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -36,6 +43,7 @@ public class CalorieIntakeFragment extends Fragment {
     FragmentCalorieIntakeBinding binding;
     TextView tvTitle;
     TextView tvCalorieDisplay;
+    TextView tvCalorieGoal;
     Button btnLogout;
 
 
@@ -58,6 +66,7 @@ public class CalorieIntakeFragment extends Fragment {
 
         tvTitle = binding.tvTitle;
         tvCalorieDisplay = binding.tvCalorieDisplay;
+        tvCalorieGoal = binding.tvCalorieGoal;
         btnLogout = binding.btnLogout;
 
         Log.i(TAG, ParseUser.getCurrentUser().getUsername());
@@ -72,6 +81,14 @@ public class CalorieIntakeFragment extends Fragment {
         }
 
         tvCalorieDisplay.setText(String.valueOf(user.getInt("calIntake")));
+        tvCalorieGoal.setText(tvCalorieGoal.getText().toString() + String.valueOf(user.getInt("calGoal")));
+        
+        tvCalorieGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goalPopup(user);
+            }
+        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +100,39 @@ public class CalorieIntakeFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void goalPopup(final ParseUser user) {
+        final PopupWindow goalPopup = new PopupWindow(getContext());
+        PopupCalorieGoalBinding calorieGoalBinding = PopupCalorieGoalBinding.inflate(getLayoutInflater());
+        View view = calorieGoalBinding.getRoot();
+        goalPopup.setContentView(view);
+
+        goalPopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        goalPopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        goalPopup.setOutsideTouchable(true);
+        goalPopup.setFocusable(true);
+
+        goalPopup.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        TextView tvCaption = calorieGoalBinding.tvCaption;
+        final EditText etNewGoal = calorieGoalBinding.etNewGoal;
+        Button btnConfirm = calorieGoalBinding.btnConfirm;
+
+        tvCaption.setText("Your current caloric intake goal is :" + String.valueOf(user.getInt("calGoal")) + " calories");
+        etNewGoal.setText(String.valueOf(user.getInt("calGoal")));
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int newGoal = Integer.parseInt(etNewGoal.getText().toString());
+                user.put("calGoal", newGoal);
+                user.saveEventually();
+                tvCalorieGoal.setText("Goal Calories: " + newGoal);
+                goalPopup.dismiss();
+            }
+        });
 
     }
 }

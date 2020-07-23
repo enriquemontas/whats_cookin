@@ -82,7 +82,6 @@ public class FoodDetailActivity extends AppCompatActivity {
         btnConsume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("ththth", "clicked");
                 consumePopup();
             }
         });

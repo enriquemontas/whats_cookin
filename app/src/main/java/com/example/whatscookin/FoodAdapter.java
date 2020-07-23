@@ -63,6 +63,25 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
             super(binding.getRoot());
             ivFood = binding.ivFood;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    remove();
+                    return true;
+                }
+            });
+        }
+
+        private void remove() {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Food food = foodList.get(position);
+                food.deleteEventually();
+                foodList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, foodList.size());
+
+            }
         }
 
         public void bind(Food food) {

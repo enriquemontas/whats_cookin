@@ -6,7 +6,6 @@
     android:padding="10dp"
     tools:context=".fragments.CalorieIntakeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
@@ -20,6 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:id="@+id/tvCalorieGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCalorieDisplay"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="Goal Calories: " />
 
     <Button
         android:id="@+id/btnLogout"
