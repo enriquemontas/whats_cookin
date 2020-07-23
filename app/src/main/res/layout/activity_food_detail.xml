@@ -67,6 +67,18 @@
         android:text="Edit" />
 
     <Button
+        android:id="@+id/btnConsume"
+        style="@style/Widget.AppCompat.Button"
+        android:backgroundTint="@color/cardview_light_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/btnEdit"
+        android:text="Consume" />
+
+    <Button
         android:id="@+id/btnCancel"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
