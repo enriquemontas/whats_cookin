@@ -1,10 +1,15 @@
-package com.example.whatscookin;
+package com.example.whatscookin.extenalresources;
 
 import android.app.Application;
 
+import com.example.whatscookin.models.Food;
+import com.example.whatscookin.Keys;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
+/**
+ * handles interactions with parse
+ */
 public class ParseApplication extends Application {
     @Override
     public void onCreate() {

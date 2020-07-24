@@ -1,8 +1,7 @@
-package com.example.whatscookin;
+package com.example.whatscookin.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whatscookin.models.Food;
 import com.example.whatscookin.activities.FoodDetailActivity;
-import com.example.whatscookin.activities.MainActivity;
 import com.example.whatscookin.databinding.ItemFoodBinding;
 import com.parse.ParseFile;
 
@@ -21,11 +20,15 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+/**
+ * Adapter for home fragment
+ * binds food images to spots in grid view and outlines items with under 1/2 original quantity
+ */
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
 
-    Context context;
-    List<Food> foodList;
-    ItemFoodBinding binding;
+    private Context context;
+    private List<Food> foodList;
+    private ItemFoodBinding binding;
 
     public FoodAdapter(Context context, List<Food> foodList) {
         this.context = context;
@@ -41,18 +44,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Food food = foodList.get(position);
+        final Food food = foodList.get(position);
         holder.bind(food);
     }
 
     @Override
     public int getItemCount() {
         return foodList.size();
-    }
-
-    public void addAll(List<Food> foodList) {
-        this.foodList.addAll(foodList);
-        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,6 +60,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(binding.getRoot());
             ivFood = binding.ivFood;
+
+            // taping an icon brings a detailed view
+            // holding an icon removes it
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -73,9 +74,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
         }
 
         private void remove() {
-            int position = getAdapterPosition();
+            final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                Food food = foodList.get(position);
+                final Food food = foodList.get(position);
                 food.deleteEventually();
                 foodList.remove(position);
                 notifyItemRemoved(position);
@@ -85,16 +86,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder>{
         }
 
         public void bind(Food food) {
-            ParseFile image = food.getImage();
+            final ParseFile image = food.getImage();
             Glide.with(context).load(image.getUrl()).into(ivFood);
-            if (food.getCurrentQuantity() <= food.getOriginalQuantity() / 2){
+            if ((food.getCurrentQuantity() * 2) <= food.getOriginalQuantity()){
                 ivFood.setBackgroundColor(0xFFF498AD);
             }
         }
 
         @Override
         public void onClick(View view) {
-            int position = getAdapterPosition();
+            final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 Food food = foodList.get(position);
                 Intent intent = new Intent(context, FoodDetailActivity.class);

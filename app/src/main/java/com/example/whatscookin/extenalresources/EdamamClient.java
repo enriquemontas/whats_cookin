@@ -1,13 +1,15 @@
-package com.example.whatscookin;
+package com.example.whatscookin.extenalresources;
 
 import android.util.Log;
+
+import com.example.whatscookin.Keys;
+import com.example.whatscookin.models.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class EdamamLookup {
+/**
+ * handles interactions with the Edamam Recipe API
+ */
+public class EdamamClient {
     // based off https://github.com/rossfletcher19/CuisineCatalog
 
     public static void searchRecipes(String query, Callback callback) {
@@ -28,8 +33,6 @@ public class EdamamLookup {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/search").newBuilder();
         urlBuilder.addQueryParameter("q", query);
-//        urlBuilder.addQueryParameter("from", "0");
-//        urlBuilder.addQueryParameter("to","30");
         urlBuilder.addQueryParameter("app_id", Keys.getApi_id());
         urlBuilder.addQueryParameter("app_key", Keys.getApi_key());
         String url = urlBuilder.build().toString();

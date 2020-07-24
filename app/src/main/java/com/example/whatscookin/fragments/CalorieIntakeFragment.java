@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,16 +18,10 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.whatscookin.R;
 import com.example.whatscookin.activities.LoginActivity;
 import com.example.whatscookin.databinding.FragmentCalorieIntakeBinding;
-import com.example.whatscookin.databinding.PopupCalorieGoalBinding;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.example.whatscookin.databinding.PopupNumberBoxBinding;
 import com.parse.ParseUser;
-
-import java.util.List;
 
 import static com.parse.Parse.getApplicationContext;
 
@@ -40,11 +32,10 @@ import static com.parse.Parse.getApplicationContext;
 public class CalorieIntakeFragment extends Fragment {
 
     public static final String TAG = "CalorieIntakeFragment";
-    FragmentCalorieIntakeBinding binding;
-    TextView tvTitle;
-    TextView tvCalorieDisplay;
-    TextView tvCalorieGoal;
-    Button btnLogout;
+    private FragmentCalorieIntakeBinding binding;
+    private TextView tvCalorieDisplay;
+    private TextView tvCalorieGoal;
+    private Button btnLogout;
 
 
     public CalorieIntakeFragment() {
@@ -64,7 +55,6 @@ public class CalorieIntakeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTitle = binding.tvTitle;
         tvCalorieDisplay = binding.tvCalorieDisplay;
         tvCalorieGoal = binding.tvCalorieGoal;
         btnLogout = binding.btnLogout;
@@ -103,10 +93,14 @@ public class CalorieIntakeFragment extends Fragment {
 
     }
 
+    /**
+     * launch popup for the current user to update their caloric intake goals
+     * @param user the current user
+     */
     private void goalPopup(final ParseUser user) {
         final PopupWindow goalPopup = new PopupWindow(getContext());
-        PopupCalorieGoalBinding calorieGoalBinding = PopupCalorieGoalBinding.inflate(getLayoutInflater());
-        View view = calorieGoalBinding.getRoot();
+        PopupNumberBoxBinding calorieGoalBinding = PopupNumberBoxBinding.inflate(getLayoutInflater());
+        final View view = calorieGoalBinding.getRoot();
         goalPopup.setContentView(view);
 
         goalPopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -117,16 +111,16 @@ public class CalorieIntakeFragment extends Fragment {
 
         goalPopup.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        TextView tvCaption = calorieGoalBinding.tvCaption;
-        final EditText etNewGoal = calorieGoalBinding.etNewGoal;
-        Button btnConfirm = calorieGoalBinding.btnConfirm;
+        final TextView tvCaption = calorieGoalBinding.tvCaption;
+        final EditText etNewGoal = calorieGoalBinding.etNumber;
+        final Button btnConfirm = calorieGoalBinding.btnConfirm;
 
         tvCaption.setText("Your current caloric intake goal is :" + String.valueOf(user.getInt("calGoal")) + " calories");
         etNewGoal.setText(String.valueOf(user.getInt("calGoal")));
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newGoal = Integer.parseInt(etNewGoal.getText().toString());
+                final int newGoal = Integer.parseInt(etNewGoal.getText().toString());
                 user.put("calGoal", newGoal);
                 user.saveEventually();
                 tvCalorieGoal.setText("Goal Calories: " + newGoal);

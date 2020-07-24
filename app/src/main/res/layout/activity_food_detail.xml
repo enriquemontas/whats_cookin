@@ -56,87 +56,15 @@
         android:layout_marginTop="5dp" />
 
     <Button
-        android:id="@+id/btnEdit"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Edit" />
-
-    <Button
         android:id="@+id/btnConsume"
         style="@style/Widget.AppCompat.Button"
         android:backgroundTint="@color/cardview_light_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_above="@+id/btnEdit"
         android:text="Consume" />
-
-    <Button
-        android:id="@+id/btnCancel"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Cancel"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btnSubmit"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"
-        android:text="Submit" />
-
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivImage"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <EditText
-        android:id="@+id/etCalorieCount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etName"
-        android:layout_marginStart="5dp"
-        android:visibility="gone"
-        android:layout_marginTop="5dp" />
-
-    <EditText
-        android:id="@+id/etServingSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etCalorieCount"
-        android:layout_marginStart="5dp"
-        android:visibility="gone"
-        android:layout_marginTop="5dp" />
-
-    <EditText
-        android:id="@+id/etBarcode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etServingSize"
-        android:layout_marginStart="5dp"
-        android:visibility="gone"
-        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

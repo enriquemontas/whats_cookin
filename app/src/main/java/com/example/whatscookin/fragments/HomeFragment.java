@@ -21,8 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.whatscookin.Food;
-import com.example.whatscookin.FoodAdapter;
+import com.example.whatscookin.models.Food;
+import com.example.whatscookin.adapters.FoodAdapter;
 import com.example.whatscookin.R;
 import com.example.whatscookin.activities.AddFoodActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
@@ -42,11 +42,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     public static final String TAG = "HomeFragment";
     public static final int QUERY_LIMIT = 20;
-    FragmentHomeBinding binding;
+    private FragmentHomeBinding binding;
     private RecyclerView rvFridge;
     private FoodAdapter adapter;
     private List<Food> fridge;
-    SwipeRefreshLayout swipeLayout;
+    private SwipeRefreshLayout swipeLayout;
 
 
     public HomeFragment() {
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         inflater.inflate(R.menu.menu_search, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
@@ -100,9 +100,13 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
     }
 
+    /**
+     * query parse for user's Food objects containing a passed in substring
+     * @param s substring to be searched
+     */
     private void searchFridge(String s) {
         fridge.clear();
-        ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
+        final ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
         query.include(Food.KEY_OWNER);
         query.whereEqualTo(Food.KEY_OWNER, ParseUser.getCurrentUser());
         query.whereContains(Food.KEY_NAME, s);
@@ -129,7 +133,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
+        final View view = binding.getRoot();
         return view;
     }
 
@@ -138,11 +142,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onViewCreated(view, savedInstanceState);
 
         // temporary code to transition to the add page
-        Button btn = binding.btn;
+        final Button btn = binding.btn;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddFoodActivity.class);
+                final Intent intent = new Intent(getContext(), AddFoodActivity.class);
                 getContext().startActivity(intent);
             }
         });
@@ -160,8 +164,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         queryFridge();
     }
 
+    /**
+     * get all the current user's Food objects
+     */
     private void queryFridge() {
-        ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
+        final ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
         query.include(Food.KEY_OWNER);
         query.whereEqualTo(Food.KEY_OWNER, ParseUser.getCurrentUser());
         query.setLimit(QUERY_LIMIT);

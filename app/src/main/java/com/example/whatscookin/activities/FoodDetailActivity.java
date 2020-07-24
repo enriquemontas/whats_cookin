@@ -1,12 +1,10 @@
 package com.example.whatscookin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,36 +13,35 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.whatscookin.Food;
-import com.example.whatscookin.R;
+import com.example.whatscookin.databinding.PopupNumberBoxBinding;
+import com.example.whatscookin.databinding.PopupTextBoxBinding;
+import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityFoodDetailBinding;
 import com.example.whatscookin.databinding.PopupConsumeBinding;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+/**
+ * This activity gives a detailed view of a user's selected food item
+ */
 public class FoodDetailActivity extends AppCompatActivity {
 
-    Food food;
+    private Food food;
 
-    ImageView ivImage;
-    TextView tvName;
-    TextView tvCalorieCount;
-    TextView tvCurrentQuantity;
-    TextView tvQuantityUnits;
-    TextView tvBarcode;
-    Button btnConsume;
-    Button btnEdit;
-    Button btnCancel;
-    Button btnSubmit;
-    EditText etName;
-    EditText etCalorieCount;
-    EditText etServingSize;
-    EditText etBarcode;
-    ActivityFoodDetailBinding binding;
+    private ImageView ivImage;
+    private TextView tvName;
+    private TextView tvCalorieCount;
+    private TextView tvCurrentQuantity;
+    private TextView tvQuantityUnits;
+    private TextView tvBarcode;
+    private Button btnConsume;
+
+    private ActivityFoodDetailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +58,6 @@ public class FoodDetailActivity extends AppCompatActivity {
         tvQuantityUnits = binding.tvQuantityUnits;
         tvBarcode = binding.tvBarcode;
         btnConsume = binding.btnConsume;
-        btnEdit = binding.btnEdit;
-        btnCancel = binding.btnCancel;
-        btnSubmit = binding.btnSubmit;
-        etName = binding.etName;
-        etCalorieCount = binding.etCalorieCount;
-        etServingSize = binding.etServingSize;
-        etBarcode = binding.etBarcode;
 
         food = Parcels.unwrap(getIntent().getParcelableExtra(Food.class.getSimpleName()));
 
@@ -79,6 +69,44 @@ public class FoodDetailActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         Glide.with(context).load(food.getImage().getUrl()).into(ivImage);
 
+        tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String prompt = "What food is this?";
+                textPopup(prompt, Food.KEY_NAME, food.getName());
+                tvName.setText(food.getName());
+            }
+        });
+
+        tvCalorieCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String prompt = "How many calories per " + food.getServingSize() + "?";
+                numberPopup(prompt, Food.KEY_CALORIES, String.valueOf(food.getCalories()));
+                tvCalorieCount.setText(String.valueOf(food.getCalories()) + " per " + food.getServingSize());
+            }
+        });
+
+        tvCurrentQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String prompt = "How many servings of " + food.getName() + " do you have left?";
+                numberPopup(prompt, Food.KEY_CURRENT_QUANTITY, String.valueOf(food.getCurrentQuantity()));
+                tvCurrentQuantity.setText(String.valueOf(food.getCurrentQuantity()));
+            }
+        });
+
+        tvQuantityUnits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String prompt = "What unit do you want to track quantity with?";
+                textPopup(prompt, Food.KEY_QUANTITY_UNIT, food.getQuantityUnit());
+                tvQuantityUnits.setText(food.getQuantityUnit());
+            }
+        });
+
+        // popup to launch barcode scanner?
+
         btnConsume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,73 +114,19 @@ public class FoodDetailActivity extends AppCompatActivity {
             }
         });
 
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tvName.setVisibility(View.GONE);
-                tvCalorieCount.setVisibility(View.GONE);
-                tvBarcode.setVisibility(View.GONE);
-                btnEdit.setVisibility(View.GONE);
-                btnCancel.setVisibility(View.VISIBLE);
-                btnSubmit.setVisibility(View.VISIBLE);
-                etName.setVisibility(View.VISIBLE);
-                etCalorieCount.setVisibility(View.VISIBLE);
-                etServingSize.setVisibility(View.VISIBLE);
-                etBarcode.setVisibility(View.VISIBLE);
-                etName.setText(food.getName());
-                etCalorieCount.setText(String.valueOf(food.getCalories()));
-                etServingSize.setText(food.getServingSize());
-                etBarcode.setText(String.valueOf(food.getBarcode()));
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tvName.setVisibility(View.VISIBLE);
-                tvCalorieCount.setVisibility(View.VISIBLE);
-                tvBarcode.setVisibility(View.VISIBLE);
-                btnEdit.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.GONE);
-                btnSubmit.setVisibility(View.GONE);
-                etName.setVisibility(View.GONE);
-                etCalorieCount.setVisibility(View.GONE);
-                etServingSize.setVisibility(View.GONE);
-                etBarcode.setVisibility(View.GONE);
-            }
-        });
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                food.setName(etName.getText().toString());
-                food.setCalories(Integer.parseInt(etCalorieCount.getText().toString()));
-                food.setServingSize(etServingSize.getText().toString());
-                food.setBarcode(Integer.parseInt(etBarcode.getText().toString()));
-                tvName.setText(food.getName());
-                tvCalorieCount.setText(String.valueOf(food.getCalories()) + " per " + food.getServingSize());
-                tvBarcode.setText(String.valueOf(food.getBarcode()));
-                tvName.setVisibility(View.VISIBLE);
-                tvCalorieCount.setVisibility(View.VISIBLE);
-                tvBarcode.setVisibility(View.VISIBLE);
-                btnEdit.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.GONE);
-                btnSubmit.setVisibility(View.GONE);
-                etName.setVisibility(View.GONE);
-                etCalorieCount.setVisibility(View.GONE);
-                etServingSize.setVisibility(View.GONE);
-                etBarcode.setVisibility(View.GONE);
-
-                food.saveEventually();
-            }
-        });
-
     }
 
-    private void consumePopup() {
+    /**
+     * Use to launch a popup that takes numeric inputs allowing the user to update a field
+     * of the Food object they are viewing
+     * @param prompt String to display to the user on the popup
+     * @param field Field of food object being updated
+     * @param originalValue what the field currently holds
+     */
+    private void numberPopup(String prompt, final String field, String originalValue) {
         final PopupWindow popupWindow = new PopupWindow(FoodDetailActivity.this);
-        PopupConsumeBinding consumeBinding = PopupConsumeBinding.inflate(getLayoutInflater());
-        View view = consumeBinding.getRoot();
+        final PopupNumberBoxBinding numberBinding = PopupNumberBoxBinding.inflate(getLayoutInflater());
+        final View view = numberBinding.getRoot();
 
         popupWindow.setContentView(view);
 
@@ -164,10 +138,84 @@ public class FoodDetailActivity extends AppCompatActivity {
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+        final TextView tvCaption = numberBinding.tvCaption;
+        final EditText etNumber = numberBinding.etNumber;
+        final Button btnConfirm = numberBinding.btnConfirm;
 
-        TextView tvCaption = consumeBinding.tvCaption;
+        tvCaption.setText(prompt);
+        etNumber.setText(originalValue);
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                food.put(field, Integer.parseInt(etNumber.getText().toString()));
+                food.saveInBackground();
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * Use to launch a popup that takes a text input allowing the user to update a field
+     * of the Food object they are viewing
+     * @param prompt String to display to the user on the popup
+     * @param field Field of food object being updated
+     * @param originalValue what the field currently holds
+     */
+    private void textPopup(String prompt, final String field, String originalValue) {
+        final PopupWindow popupWindow = new PopupWindow(FoodDetailActivity.this);
+        final PopupTextBoxBinding textBinding = PopupTextBoxBinding.inflate(getLayoutInflater());
+        final View view = textBinding.getRoot();
+
+        popupWindow.setContentView(view);
+
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        final TextView tvCaption = textBinding.tvCaption;
+        final EditText etText = textBinding.etText;
+        final Button btnConfirm = textBinding.btnConfirm;
+
+        tvCaption.setText(prompt);
+        etText.setText(food.getName());
+
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                food.put(field, etText.getText().toString());
+                food.saveInBackground();
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * popup allowing the user to consume between one and total quantity of the viewed Food object
+     * the caloric information of the user is then updated
+     */
+    private void consumePopup() {
+        final PopupWindow popupWindow = new PopupWindow(FoodDetailActivity.this);
+        final PopupConsumeBinding consumeBinding = PopupConsumeBinding.inflate(getLayoutInflater());
+        final View view = consumeBinding.getRoot();
+
+        popupWindow.setContentView(view);
+
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        final TextView tvCaption = consumeBinding.tvCaption;
         final NumberPicker npQuantityConsumed = consumeBinding.npQuantityConsumed;
-        Button btnConfirm = consumeBinding.btnConfirm;
+        final Button btnConfirm = consumeBinding.btnConfirm;
 
         tvCaption.setText("How many servings are you eating? \n One serving: " + food.getServingSize());
 
@@ -184,9 +232,9 @@ public class FoodDetailActivity extends AppCompatActivity {
                 intake += food.getCalories() * npQuantityConsumed.getValue();
                 user.put("calIntake", intake);
                 user.saveEventually();
-                int remaining = food.getCurrentQuantity() - npQuantityConsumed.getValue();
+                final int remaining = food.getCurrentQuantity() - npQuantityConsumed.getValue();
                 food.setCurrentQuantity(remaining);
-                tvCurrentQuantity.setText(remaining);
+                tvCurrentQuantity.setText(String.valueOf(remaining));
                 food.saveEventually();
                 popupWindow.dismiss();
             }

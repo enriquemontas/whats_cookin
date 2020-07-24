@@ -18,6 +18,10 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+/**
+ * Activity responsible for logging in a user
+ * Launched on app startup, but if a user wasn't logged out they are directed back to the home page
+ */
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
@@ -33,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
+        final View view = binding.getRoot();
         setContentView(view);
 
         if (ParseUser.getCurrentUser() != null){
@@ -62,17 +66,17 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 String username = etUsername.getText().toString();
-                 String password = etPassword.getText().toString();
-                 loginUser(username, password);
+                final String username = etUsername.getText().toString();
+                final String password = etPassword.getText().toString();
+                loginUser(username, password);
             }
         });
         
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
+                final String username = etUsername.getText().toString();
+                final String password = etPassword.getText().toString();
                 signUpUser(username, password);
             }
         });
@@ -97,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signUpUser(String username, String password) {
         Log.i(TAG, "signing up user: " + username);
-        ParseUser user = new ParseUser();
+        final ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
         user.signUpInBackground(new SignUpCallback() {

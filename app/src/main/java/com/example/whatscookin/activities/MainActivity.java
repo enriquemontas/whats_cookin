@@ -17,6 +17,9 @@ import com.example.whatscookin.fragments.HomeFragment;
 import com.example.whatscookin.fragments.RecipeLookupFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * MainActivity responsible for fragment manager and bottom navigation
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        // define your fragments
+        // define fragments
         final Fragment fragment1 = new HomeFragment();
         final Fragment fragment2 = new CalorieIntakeFragment();
         final Fragment fragment3 = new RecipeLookupFragment();

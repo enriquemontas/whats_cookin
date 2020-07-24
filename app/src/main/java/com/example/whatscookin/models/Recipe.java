@@ -1,4 +1,4 @@
-package com.example.whatscookin;
+package com.example.whatscookin.models;
 
 import android.os.Build;
 
@@ -21,6 +21,7 @@ public class Recipe {
 
     public Recipe() { }
 
+    // constructor
     public Recipe(String title, String image, String url, List<String> ingredientLines, String calories, String servings) {
         this.title = title;
         this.image = image;
@@ -30,6 +31,7 @@ public class Recipe {
         this.servings = servings;
     }
 
+    // getters
     public String getTitle() {
         return title;
     }
@@ -51,29 +53,5 @@ public class Recipe {
 
     public String getServings() {
         return servings;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setIngredientLines(List<String> ingredientLines) {
-        this.ingredientLines = ingredientLines;
-    }
-
-    public void setCalories(String calories) {
-        this.calories = calories;
-    }
-
-    public void setServings(String servings) {
-        this.servings = servings;
     }
 }

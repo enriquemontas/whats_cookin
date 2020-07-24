@@ -18,10 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.whatscookin.Food;
-import com.example.whatscookin.R;
+import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityAddFoodBinding;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -29,6 +27,9 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 
+/**
+ * This activity is used to add items to the virtual fridge
+ */
 public class AddFoodActivity extends AppCompatActivity {
 
     public static final String TAG = "AddFoodActivity";
@@ -139,6 +140,14 @@ public class AddFoodActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
+    /**
+     * Given field values this method creates a new food object and saves it to parse
+     * @param name name of the object
+     * @param currentUser owner of the object
+     * @param photoFile photo of object
+     * @param quantity how many units the user is inserting
+     * @param quantityUnit the unit the user will measure the quantity with
+     */
     private void savePost(String name, ParseUser currentUser, File photoFile, int quantity, String quantityUnit) {
         Food food = new Food();
         food.setName(name);

@@ -1,7 +1,6 @@
-package com.example.whatscookin;
+package com.example.whatscookin.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,21 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ItemFoodRecipeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter that keeps track of the selected ingredients for the recipe query
+ */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
-    Context context;
-    List<Food> fridge;
-    ItemFoodRecipeBinding binding;
-    List<String> ingredients;
+    private Context context;
+    private List<Food> fridge;
+    private ItemFoodRecipeBinding binding;
+    private List<String> ingredients;
 
     public RecipeAdapter(Context context, List<Food> fridge) {
         this.context = context;
@@ -33,13 +36,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = ItemFoodRecipeBinding.inflate(LayoutInflater.from(context), parent, false);
-        View view = binding.getRoot();
+        final View view = binding.getRoot();
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Food food = fridge.get(position);
+        final Food food = fridge.get(position);
         holder.bind(food);
     }
 

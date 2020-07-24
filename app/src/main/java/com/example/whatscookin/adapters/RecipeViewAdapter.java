@@ -1,4 +1,4 @@
-package com.example.whatscookin;
+package com.example.whatscookin.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,20 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whatscookin.models.Recipe;
 import com.example.whatscookin.activities.RecipeDetailActivity;
-import com.example.whatscookin.activities.RecipeViewActivity;
 import com.example.whatscookin.databinding.ItemRecipeBinding;
 
 import org.parceler.Parcels;
 
 import java.util.List;
 
-
+/**
+ * Display recipes retrieved from query in a recycler view
+ */
 public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.ViewHolder> {
 
-    Context context;
-    List<Recipe> recipes;
-    ItemRecipeBinding binding;
+    private Context context;
+    private List<Recipe> recipes;
+    private ItemRecipeBinding binding;
 
     public RecipeViewAdapter(Context context, List<Recipe> recipes) {
         this.context = context;
@@ -36,13 +38,13 @@ public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = ItemRecipeBinding.inflate(LayoutInflater.from(context), parent, false);
-        View view = binding.getRoot();
+        final View view = binding.getRoot();
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Recipe recipe = recipes.get(position);
+        final Recipe recipe = recipes.get(position);
         holder.bind(recipe);
     }
 
@@ -76,7 +78,7 @@ public class RecipeViewAdapter extends RecyclerView.Adapter<RecipeViewAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            int position = getAdapterPosition();
+            final int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION){
                 Recipe recipe = recipes.get(position);
                 Intent intent = new Intent(context.getApplicationContext(), RecipeDetailActivity.class);
