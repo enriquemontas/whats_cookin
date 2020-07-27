@@ -49,10 +49,8 @@ public class RecipeLookupFragment extends Fragment {
     public static final String TAG = "RecipeLookupFragment";
     public static final int QUERY_LIMIT = 20;
     private FragmentRecipeLookupBinding binding;
-    private RecyclerView rvFood;
     private RecipeAdapter adapter;
     private List<Food> fridge;
-    private FloatingActionButton fabSearch;
     private List<String> ingredients;
     private String queryString;
     private List<Recipe> recipes;
@@ -71,8 +69,8 @@ public class RecipeLookupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvFood = binding.rvFood;
-        fabSearch = binding.fabSearch;
+        final RecyclerView rvFood = binding.rvFood;
+        final FloatingActionButton fabSearch = binding.fabSearch;
         fridge = new ArrayList<>();
         recipes = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), fridge);

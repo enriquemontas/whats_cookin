@@ -54,10 +54,6 @@ public class AddFoodActivity extends AppCompatActivity {
 
     public static final String TAG = "AddFoodActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 11;
-    private ActivityAddFoodBinding binding;
-    private Button btnCaptureImage;
-    private Button btnScan;
-    private Button btnAdd;
     private EditText etName;
     private EditText etQuantity;
     private EditText etQuantityUnit;
@@ -71,14 +67,14 @@ public class AddFoodActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityAddFoodBinding.inflate(getLayoutInflater());
+        final ActivityAddFoodBinding binding = ActivityAddFoodBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
         // TODO add barcode scanner
-        btnCaptureImage = binding.btnCaptureImage;
-        btnScan = binding.btnScan;
-        btnAdd = binding.btnAdd;
+        final Button btnCaptureImage = binding.btnCaptureImage;
+        final Button btnScan = binding.btnScan;
+        final Button btnAdd = binding.btnAdd;
         etName = binding.etName;
         etQuantity = binding.etQuantity;
         etQuantityUnit = binding.etQuantityUnit;

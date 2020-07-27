@@ -33,31 +33,26 @@ public class FoodDetailActivity extends AppCompatActivity {
 
     private Food food;
 
-    private ImageView ivImage;
     private TextView tvName;
     private TextView tvCalorieCount;
     private TextView tvCurrentQuantity;
     private TextView tvQuantityUnits;
-    private TextView tvBarcode;
-    private Button btnConsume;
-
-    private ActivityFoodDetailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityFoodDetailBinding.inflate(getLayoutInflater());
+        final ActivityFoodDetailBinding binding = ActivityFoodDetailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
-        ivImage = binding.ivImage;
+        final ImageView ivImage = binding.ivImage;
         tvName = binding.tvName;
         tvCalorieCount = binding.tvCalorieCount;
         tvCurrentQuantity = binding.tvCurrentQuantity;
         tvQuantityUnits = binding.tvQuantityUnits;
-        tvBarcode = binding.tvBarcode;
-        btnConsume = binding.btnConsume;
+        final TextView tvBarcode = binding.tvBarcode;
+        final Button btnConsume = binding.btnConsume;
 
         food = Parcels.unwrap(getIntent().getParcelableExtra(Food.class.getSimpleName()));
 

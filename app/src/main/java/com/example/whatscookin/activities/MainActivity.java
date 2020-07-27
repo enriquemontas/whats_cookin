@@ -22,18 +22,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-    private BottomNavigationView bottomNavigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        final ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
-        bottomNavigation = binding.bottomNavigation;
+        final BottomNavigationView bottomNavigation = binding.bottomNavigation;
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 

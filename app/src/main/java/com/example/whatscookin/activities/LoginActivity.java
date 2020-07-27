@@ -25,18 +25,16 @@ import com.parse.SignUpCallback;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
-    private Switch swSignUp;
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
     private Button btnSignUp;
-    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        final ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         setContentView(view);
 
@@ -44,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        swSignUp = binding.switchSignUp;
+        final Switch swSignUp = binding.switchSignUp;
         etUsername = binding.etUsername;
         etPassword = binding.etPassword;
         btnLogin = binding.btnLogin;
