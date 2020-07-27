@@ -10,22 +10,42 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.whatscookin.Keys;
+import com.example.whatscookin.R;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityAddFoodBinding;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * This activity is used to add items to the virtual fridge
@@ -36,6 +56,7 @@ public class AddFoodActivity extends AppCompatActivity {
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 11;
     private ActivityAddFoodBinding binding;
     private Button btnCaptureImage;
+    private Button btnScan;
     private Button btnAdd;
     private EditText etName;
     private EditText etQuantity;
@@ -43,6 +64,8 @@ public class AddFoodActivity extends AppCompatActivity {
     private ImageView ivFoodImage;
     private File photoFile;
     public String photoFileName = "photo.jpg";
+    private Barcode barcode;
+    private Bitmap takenImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +77,7 @@ public class AddFoodActivity extends AppCompatActivity {
 
         // TODO add barcode scanner
         btnCaptureImage = binding.btnCaptureImage;
+        btnScan = binding.btnScan;
         btnAdd = binding.btnAdd;
         etName = binding.etName;
         etQuantity = binding.etQuantity;
@@ -64,6 +88,40 @@ public class AddFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launchCamera();
+            }
+        });
+
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // tries to scan an empty image
+                if (takenImage == null) {
+                    Toast.makeText(AddFoodActivity.this, "take an image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            BarcodeDetector detector =
+                                    new BarcodeDetector.Builder(getApplicationContext())
+                                            .setBarcodeFormats(Barcode.UPC_A | Barcode.UPC_E)
+                                            .build();
+
+                            if (!detector.isOperational()) {
+                                Log.i(TAG, "problem with detector");
+                            }
+
+                            Frame frame = new Frame.Builder().setBitmap(takenImage).build();
+                            SparseArray<Barcode> barcodes = detector.detect(frame);
+
+                            barcode = barcodes.valueAt(0);
+                            queryBarcode();
+                        } catch (IOException | JSONException e) {
+                            Log.e(TAG, "query barcode: ", e);
+                        }
+                    }
+                }).start();
             }
         });
 
@@ -85,6 +143,29 @@ public class AddFoodActivity extends AppCompatActivity {
                 savePost(name, currentUser, photoFile, quantity, quantityUnit);
             }
         });
+
+    }
+
+    // query the api given a scanned barcode to get product info
+    private void queryBarcode() throws IOException, JSONException {
+        final String API_URL = "https://api.barcodelookup.com/v2/products?barcode=" + barcode.rawValue + "&formatted=y&key=" + Keys.getBarcodeApiKey();
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(API_URL).build();
+
+        Response response = client.newCall(request).execute();
+
+        final String responseData = response.body().string();
+        JSONObject json = new JSONObject(responseData);
+        final JSONObject product = json.getJSONArray("products").getJSONObject(0);
+        populate(product);
+
+    }
+
+    // extract information from response and populate fields
+    private void populate(JSONObject product) throws JSONException {
+        Looper.prepare();
+        etName.setText(product.getString("product_name"));
+        Glide.with(getApplicationContext()).load(product.getJSONArray("images").get(0));
 
     }
 
@@ -114,7 +195,7 @@ public class AddFoodActivity extends AppCompatActivity {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivFoodImage.setImageBitmap(takenImage);

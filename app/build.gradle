@@ -45,4 +45,7 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.12'
     implementation 'com.squareup.okhttp3:okhttp:4.1.0'
 
+    implementation 'com.android.support:appcompat-v7:22.0.0'
+    implementation 'com.google.android.gms:play-services:7.8+'
+
 }
