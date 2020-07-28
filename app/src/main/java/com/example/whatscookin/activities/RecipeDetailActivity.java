@@ -22,14 +22,7 @@ import org.parceler.Parcels;
  */
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    private ActivityRecipeDetailBinding binding;
     private Recipe recipe;
-    private ImageView ivImage;
-    private TextView tvName;
-    private TextView tvServing;
-    private TextView tvCalories;
-    private TextView tvIngredients;
-    private FloatingActionButton fabView;
     private WebView webView;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -39,16 +32,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         recipe = Parcels.unwrap(getIntent().getParcelableExtra(Recipe.class.getSimpleName()));
 
-        binding = ActivityRecipeDetailBinding.inflate(getLayoutInflater());
+        final ActivityRecipeDetailBinding binding = ActivityRecipeDetailBinding.inflate(getLayoutInflater());
         final View view = binding.getRoot();
         setContentView(view);
 
-        ivImage = binding.ivImage;
-        tvName = binding.tvName;
-        tvServing = binding.tvServing;
-        tvCalories = binding.tvCalories;
-        tvIngredients = binding.tvIngredient;
-        fabView = binding.fabView;
+        final ImageView ivImage = binding.ivImage;
+        final TextView tvName = binding.tvName;
+        final TextView tvServing = binding.tvServing;
+        final TextView tvCalories = binding.tvCalories;
+        final TextView tvIngredients = binding.tvIngredient;
+        FloatingActionButton fabView = binding.fabView;
         webView = binding.webView;
 
         tvName.setText(recipe.getTitle());

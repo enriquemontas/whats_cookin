@@ -33,9 +33,7 @@ public class CalorieIntakeFragment extends Fragment {
 
     public static final String TAG = "CalorieIntakeFragment";
     private FragmentCalorieIntakeBinding binding;
-    private TextView tvCalorieDisplay;
     private TextView tvCalorieGoal;
-    private Button btnLogout;
 
 
     public CalorieIntakeFragment() {
@@ -55,9 +53,9 @@ public class CalorieIntakeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvCalorieDisplay = binding.tvCalorieDisplay;
+        final TextView tvCalorieDisplay = binding.tvCalorieDisplay;
         tvCalorieGoal = binding.tvCalorieGoal;
-        btnLogout = binding.btnLogout;
+        final Button btnLogout = binding.btnLogout;
 
         Log.i(TAG, ParseUser.getCurrentUser().getUsername());
 

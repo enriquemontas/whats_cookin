@@ -33,8 +33,8 @@ public class EdamamClient {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/search").newBuilder();
         urlBuilder.addQueryParameter("q", query);
-        urlBuilder.addQueryParameter("app_id", Keys.getApi_id());
-        urlBuilder.addQueryParameter("app_key", Keys.getApi_key());
+        urlBuilder.addQueryParameter("app_id", Keys.getApiId());
+        urlBuilder.addQueryParameter("app_key", Keys.getApiKey());
         String url = urlBuilder.build().toString();
         Log.i("LookUp", url);
 
@@ -76,9 +76,7 @@ public class EdamamClient {
 
             }
 
-        }catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        }catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return allRecipes;

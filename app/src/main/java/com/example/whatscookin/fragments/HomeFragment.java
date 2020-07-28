@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public static final String TAG = "HomeFragment";
     public static final int QUERY_LIMIT = 20;
     private FragmentHomeBinding binding;
-    private RecyclerView rvFridge;
     private FoodAdapter adapter;
     private List<Food> fridge;
     private SwipeRefreshLayout swipeLayout;
@@ -151,7 +150,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
 
-        rvFridge = binding.rvFridge;
+        final RecyclerView rvFridge = binding.rvFridge;
 
         fridge = new ArrayList<>();
         adapter = new FoodAdapter(getContext(), fridge);
