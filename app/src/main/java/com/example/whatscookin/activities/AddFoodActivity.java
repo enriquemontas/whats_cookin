@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.whatscookin.Keys;
 import com.example.whatscookin.R;
+import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityAddFoodBinding;
 import com.google.android.gms.vision.Frame;
@@ -86,6 +87,12 @@ public class AddFoodActivity extends AppCompatActivity {
                 launchCamera();
             }
         });
+
+        if (ParseApplication.isOffline()){
+            btnScan.setVisibility(View.GONE);
+        } else {
+            btnScan.setVisibility(View.VISIBLE);
+        }
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +240,7 @@ public class AddFoodActivity extends AppCompatActivity {
         food.setCurrentQuantity(quantity);
         food.setOriginalQuantity(quantity);
         food.setQuantityUnit(quantityUnit);
-        food.saveInBackground(new SaveCallback() {
+        food.saveEventually(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null ){

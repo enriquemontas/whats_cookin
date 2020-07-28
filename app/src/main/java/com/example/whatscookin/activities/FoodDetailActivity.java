@@ -1,7 +1,6 @@
 package com.example.whatscookin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewbinding.ViewBinding;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +23,7 @@ import com.example.whatscookin.databinding.PopupConsumeBinding;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 /**
  * This activity gives a detailed view of a user's selected food item
@@ -51,13 +50,15 @@ public class FoodDetailActivity extends AppCompatActivity {
         tvCalorieCount = binding.tvCalorieCount;
         tvCurrentQuantity = binding.tvCurrentQuantity;
         tvQuantityUnits = binding.tvQuantityUnits;
+        final TextView tvServings = binding.tvServings;
         final TextView tvBarcode = binding.tvBarcode;
         final Button btnConsume = binding.btnConsume;
 
         food = Parcels.unwrap(getIntent().getParcelableExtra(Food.class.getSimpleName()));
 
         tvName.setText(food.getName());
-        tvCalorieCount.setText(String.valueOf(food.getCalories()) + " per " + food.getServingSize());
+        tvCalorieCount.setText(String.valueOf(food.getCalories()));
+        tvServings.setText(" per " + food.getServingSize());
         tvCurrentQuantity.setText(String.valueOf(food.getCurrentQuantity()));
         tvQuantityUnits.setText(food.getQuantityUnit());
         tvBarcode.setText(String.valueOf(food.getBarcode()));
@@ -68,8 +69,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String prompt = "What food is this?";
-                textPopup(prompt, Food.KEY_NAME, food.getName());
-                tvName.setText(food.getName());
+                textPopup(prompt, Food.KEY_NAME, tvName);
             }
         });
 
@@ -77,8 +77,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String prompt = "How many calories per " + food.getServingSize() + "?";
-                numberPopup(prompt, Food.KEY_CALORIES, String.valueOf(food.getCalories()));
-                tvCalorieCount.setText(String.valueOf(food.getCalories()) + " per " + food.getServingSize());
+                numberPopup(prompt, Food.KEY_CALORIES, tvCalorieCount);
             }
         });
 
@@ -86,8 +85,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String prompt = "How many servings of " + food.getName() + " do you have left?";
-                numberPopup(prompt, Food.KEY_CURRENT_QUANTITY, String.valueOf(food.getCurrentQuantity()));
-                tvCurrentQuantity.setText(String.valueOf(food.getCurrentQuantity()));
+                numberPopup(prompt, Food.KEY_CURRENT_QUANTITY, tvCurrentQuantity);
             }
         });
 
@@ -95,8 +93,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String prompt = "What unit do you want to track quantity with?";
-                textPopup(prompt, Food.KEY_QUANTITY_UNIT, food.getQuantityUnit());
-                tvQuantityUnits.setText(food.getQuantityUnit());
+                textPopup(prompt, Food.KEY_QUANTITY_UNIT, tvQuantityUnits);
             }
         });
 
@@ -116,9 +113,8 @@ public class FoodDetailActivity extends AppCompatActivity {
      * of the Food object they are viewing
      * @param prompt String to display to the user on the popup
      * @param field Field of food object being updated
-     * @param originalValue what the field currently holds
      */
-    private void numberPopup(String prompt, final String field, String originalValue) {
+    private void numberPopup(String prompt, final String field, final TextView textView) {
         final PopupWindow popupWindow = new PopupWindow(FoodDetailActivity.this);
         final PopupNumberBoxBinding numberBinding = PopupNumberBoxBinding.inflate(getLayoutInflater());
         final View view = numberBinding.getRoot();
@@ -138,13 +134,14 @@ public class FoodDetailActivity extends AppCompatActivity {
         final Button btnConfirm = numberBinding.btnConfirm;
 
         tvCaption.setText(prompt);
-        etNumber.setText(originalValue);
+        etNumber.setText(textView.getText());
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 food.put(field, Integer.parseInt(etNumber.getText().toString()));
-                food.saveInBackground();
+                food.saveEventually();
+                textView.setText(etNumber.getText().toString());
                 popupWindow.dismiss();
             }
         });
@@ -155,9 +152,9 @@ public class FoodDetailActivity extends AppCompatActivity {
      * of the Food object they are viewing
      * @param prompt String to display to the user on the popup
      * @param field Field of food object being updated
-     * @param originalValue what the field currently holds
+     * @param textView the view of the field the user is updating
      */
-    private void textPopup(String prompt, final String field, String originalValue) {
+    private void textPopup(String prompt, final String field, final TextView textView) {
         final PopupWindow popupWindow = new PopupWindow(FoodDetailActivity.this);
         final PopupTextBoxBinding textBinding = PopupTextBoxBinding.inflate(getLayoutInflater());
         final View view = textBinding.getRoot();
@@ -177,13 +174,14 @@ public class FoodDetailActivity extends AppCompatActivity {
         final Button btnConfirm = textBinding.btnConfirm;
 
         tvCaption.setText(prompt);
-        etText.setText(food.getName());
+        etText.setText(textView.getText());
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 food.put(field, etText.getText().toString());
-                food.saveInBackground();
+                food.saveEventually();
+                textView.setText(etText.getText().toString());
                 popupWindow.dismiss();
             }
         });

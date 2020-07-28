@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.adapters.FoodAdapter;
 import com.example.whatscookin.R;
@@ -28,6 +29,7 @@ import com.example.whatscookin.activities.AddFoodActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -111,6 +113,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         query.whereContains(Food.KEY_NAME, s);
         query.setLimit(QUERY_LIMIT);
         query.addAscendingOrder(Food.KEY_NAME);
+
+        if (ParseApplication.isOffline()){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<Food>() {
             @Override
             public void done(List<Food> foodList, ParseException e) {
@@ -172,6 +179,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         query.whereEqualTo(Food.KEY_OWNER, ParseUser.getCurrentUser());
         query.setLimit(QUERY_LIMIT);
         query.addAscendingOrder(Food.KEY_NAME);
+
+        if (ParseApplication.isOffline()){
+            query.fromLocalDatastore();
+        }
+
         query.findInBackground(new FindCallback<Food>() {
             @Override
             public void done(List<Food> foodList, ParseException e) {
@@ -183,6 +195,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     Log.i(TAG, "Food: " + food.getName());
                 }
                 fridge.addAll(foodList);
+                ParseObject.pinAllInBackground(fridge);
                 adapter.notifyDataSetChanged();
             }
         });

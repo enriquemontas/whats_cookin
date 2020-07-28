@@ -24,10 +24,18 @@
 
     <TextView
         android:id="@+id/tvCalorieCount"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tvServings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_toEndOf="@+id/tvCalorieCount"
         android:layout_marginTop="5dp" />
 
     <TextView
