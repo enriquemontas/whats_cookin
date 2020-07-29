@@ -88,7 +88,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public boolean onQueryTextSubmit(String s) {
 
                 //perform query here
-                searchFridge(s);
+                try {
+                    searchFridge(s);
+                } catch (JSONException e) {
+                    queryFridge();
+                }
 
                 searchView.clearFocus();
                 return true;
@@ -118,36 +122,33 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     /**
-     * query parse for user's Food objects containing a passed in substring
+     * filter the visible food by its name and tag
      * @param s substring to be searched
      */
-    private void searchFridge(String s) {
+    private void searchFridge(String s) throws JSONException {
+        final List<Food> fullFridge = new ArrayList<>();
+        fullFridge.addAll(fridge);
         fridge.clear();
-        final ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
-        query.include(Food.KEY_OWNER);
-        query.whereEqualTo(Food.KEY_OWNER, ParseUser.getCurrentUser());
-        query.whereContains(Food.KEY_NAME, s);
-        query.setLimit(QUERY_LIMIT);
-        query.addAscendingOrder(Food.KEY_NAME);
-
-        if (ParseApplication.isOffline()){
-            query.fromLocalDatastore();
-        }
-
-        query.findInBackground(new FindCallback<Food>() {
-            @Override
-            public void done(List<Food> foodList, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "something went wrong in the query", e);
-                    return;
-                }
-                for (Food food : foodList){
-                    Log.i(TAG, "Food: " + food.getName());
-                }
-                fridge.addAll(foodList);
-                adapter.notifyDataSetChanged();
+        Log.i(TAG, String.valueOf(fullFridge.size()));
+        for (Food f : fullFridge) {
+            Log.i(TAG, f.getName().toLowerCase());
+            if (f.getName().toLowerCase().contains(s.toLowerCase())) {
+                fridge.add(f);
+                continue; // the continue ensures no repeats for matching on both name and tag
             }
-        });
+            if (f.getTags() != null) {
+                JSONArray tags = f.getTags();
+                for (int i = 0; i < tags.length(); i++) {
+                    String tag = tags.getString(i);
+                    if (tag.toLowerCase().contains(s.toLowerCase())){
+                        fridge.add(f);
+                        break;
+                    }
+                }
+            }
+        }
+        ParseObject.pinAllInBackground(fridge);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
