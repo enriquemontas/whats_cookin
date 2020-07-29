@@ -129,9 +129,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         final List<Food> fullFridge = new ArrayList<>();
         fullFridge.addAll(fridge);
         fridge.clear();
-        Log.i(TAG, String.valueOf(fullFridge.size()));
+
         for (Food f : fullFridge) {
-            Log.i(TAG, f.getName().toLowerCase());
             if (f.getName().toLowerCase().contains(s.toLowerCase())) {
                 fridge.add(f);
                 continue; // the continue ensures no repeats for matching on both name and tag
