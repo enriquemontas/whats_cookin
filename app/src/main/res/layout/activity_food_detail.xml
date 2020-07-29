@@ -55,14 +55,6 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp" />
 
-    <TextView
-        android:id="@+id/tvBarcode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCurrentQuantity"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp" />
-
     <Button
         android:id="@+id/btnConsume"
         style="@style/Widget.AppCompat.Button"

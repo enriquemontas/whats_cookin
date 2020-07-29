@@ -5,6 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.parceler.Parcel;
 
 @Parcel(analyze={Food.class})
@@ -16,10 +17,10 @@ public class Food extends ParseObject {
     public static final String KEY_NAME = "name";
     public static final String KEY_BARCODE = "barcode";
     public static final String KEY_CALORIES = "calories";
-    public static final String KEY_SERVING_SIZE = "servingSize";
     public static final String KEY_CURRENT_QUANTITY = "currentQuantity";
     public static final String KEY_ORIGINAL_QUANTITY = "originalQuantity";
     public static final String KEY_QUANTITY_UNIT = "quantityUnit";
+    public static final String KEY_TAGS = "tags";
 
     // empty constructor for parse
     public Food() { }
@@ -34,13 +35,13 @@ public class Food extends ParseObject {
 
     public int getCalories() { return getInt(KEY_CALORIES); }
 
-    public String getServingSize() { return getString(KEY_SERVING_SIZE); }
-
     public int getCurrentQuantity() { return getInt(KEY_CURRENT_QUANTITY); }
 
     public int getOriginalQuantity() { return getInt(KEY_ORIGINAL_QUANTITY); }
 
     public String getQuantityUnit() { return getString(KEY_QUANTITY_UNIT); }
+
+    public JSONArray getTags() { return getJSONArray(KEY_TAGS); }
 
     public void setOwner(ParseUser user) { put(KEY_OWNER, user); }
 
@@ -52,11 +53,11 @@ public class Food extends ParseObject {
 
     public void setCalories(int calories) {put(KEY_CALORIES, calories);}
 
-    public void setServingSize(String servingSize) { put(KEY_SERVING_SIZE, servingSize);}
-
     public void setCurrentQuantity(int quantity) { put(KEY_CURRENT_QUANTITY, quantity); }
 
     public void setOriginalQuantity(int quantity) { put(KEY_ORIGINAL_QUANTITY, quantity); }
 
     public void setQuantityUnit(String unit) { put(KEY_QUANTITY_UNIT, unit); }
+
+    public void setTags(JSONArray tags) { put(KEY_TAGS, tags); }
 }
