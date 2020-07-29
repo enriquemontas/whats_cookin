@@ -20,7 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.whatscookin.OnSwipeTouchListener;
 import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.adapters.FoodAdapter;
@@ -166,6 +168,16 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         swipeLayout = binding.swipeContainer;
         swipeLayout.setOnRefreshListener(this);
+
+        rvFridge.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                Toast.makeText(getContext(), "Swipe Right gesture detected", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
         queryFridge();
     }
