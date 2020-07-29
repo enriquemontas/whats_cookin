@@ -56,6 +56,18 @@
         android:layout_marginTop="5dp" />
 
     <Button
+        android:id="@+id/btnTags"
+        style="@style/Widget.AppCompat.Button"
+        android:backgroundTint="@color/cardview_light_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Tags" />
+
+    <Button
         android:id="@+id/btnConsume"
         style="@style/Widget.AppCompat.Button"
         android:backgroundTint="@color/cardview_light_background"
