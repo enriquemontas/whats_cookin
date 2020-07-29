@@ -57,7 +57,6 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder>{
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTag;
-        private EditText etAddTag;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
