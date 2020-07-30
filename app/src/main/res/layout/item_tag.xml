@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/tvTag"
+        android:textColor="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="parent"

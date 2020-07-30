@@ -249,7 +249,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         final NumberPicker npQuantityConsumed = consumeBinding.npQuantityConsumed;
         final Button btnConfirm = consumeBinding.btnConfirm;
 
-        tvCaption.setText("How many servings are you eating? \n One serving: " + food.getQuantityUnit());
+        tvCaption.setText("How many servings are you eating? \n One serving: 1 " + food.getQuantityUnit());
 
         npQuantityConsumed.setMinValue(1);
         npQuantityConsumed.setMaxValue(food.getCurrentQuantity());
