@@ -14,15 +14,16 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whatscookin.Keys;
-import com.example.whatscookin.R;
 import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityAddFoodBinding;
@@ -34,7 +35,6 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,8 +42,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -63,6 +61,9 @@ public class AddFoodActivity extends AppCompatActivity {
     public String photoFileName = "photo.jpg";
     private Barcode barcode;
     private Bitmap takenImage;
+    private EditText etTag;
+    private TextView tvTag;
+    private JSONArray tags = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,8 @@ public class AddFoodActivity extends AppCompatActivity {
         etName = binding.etName;
         etQuantity = binding.etQuantity;
         etQuantityUnit = binding.etQuantityUnit;
+        etTag = binding.etTag;
+        tvTag = binding.tvTag;
         ivFoodImage = binding.ivFoodImage;
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +96,25 @@ public class AddFoodActivity extends AppCompatActivity {
         } else {
             btnScan.setVisibility(View.VISIBLE);
         }
+
+        etTag.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch(i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            final String tag = etTag.getText().toString();
+                            addTag(tag);
+                            etTag.setText("");
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +168,12 @@ public class AddFoodActivity extends AppCompatActivity {
                 savePost(name, currentUser, photoFile, quantity, quantityUnit);
             }
         });
+
+    }
+
+    private void addTag(String tag) {
+        tags.put(tag);
+        tvTag.setText(tvTag.getText() + " "+ tag);
 
     }
 
@@ -240,7 +268,8 @@ public class AddFoodActivity extends AppCompatActivity {
         food.setCurrentQuantity(quantity);
         food.setOriginalQuantity(quantity);
         food.setQuantityUnit(quantityUnit);
-        food.saveEventually(new SaveCallback() {
+        food.setTags(tags);
+        food.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null ){
@@ -251,6 +280,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 etName.setText("");
                 etQuantity.setText("");
                 etQuantityUnit.setText("");
+                tags = new JSONArray();
                 ivFoodImage.setImageResource(0);
             }
         });

@@ -38,6 +38,17 @@
         android:layout_height="wrap_content"
         android:hint="Units for quantity" />
 
+    <EditText
+        android:id="@+id/etTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tag your item ie Carb, Fruit, Poultry" />
+    
+    <TextView
+        android:id="@+id/tvTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btnScan"
         android:layout_width="match_parent"
