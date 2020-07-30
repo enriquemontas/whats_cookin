@@ -211,8 +211,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         popupWindow.setContentView(view);
 
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         for (Food food : fridge) {
             if (food.getTags() == null){
-                // here because I didn't initalize parse column with default variable
+                // here because I didn't initialize parse column with default variable
                 // can remake column to delete this check
                 continue;
             }
