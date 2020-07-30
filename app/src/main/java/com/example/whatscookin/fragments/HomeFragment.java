@@ -217,6 +217,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
 
+        popupWindow.setAnimationStyle(R.style.popup_tag_animation);
+
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         final JSONArray tags = new JSONArray();
@@ -231,7 +233,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             JSONArray foodTags = food.getTags();
             for (int i = 0; i < foodTags.length(); i++) {
                 String tag = foodTags.getString(i);
-                if (seen.contains(tag)){
+                if (seen.contains(tag.toLowerCase())){
                     continue;
                 } else {
                     seen.add(tag.toLowerCase()); // make lowercase so "Tag" and "tag" are equal
