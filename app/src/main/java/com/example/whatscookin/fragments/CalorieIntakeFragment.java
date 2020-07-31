@@ -1,6 +1,7 @@
 package com.example.whatscookin.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,19 @@ import android.widget.TextView;
 import com.example.whatscookin.activities.LoginActivity;
 import com.example.whatscookin.databinding.FragmentCalorieIntakeBinding;
 import com.example.whatscookin.databinding.PopupNumberBoxBinding;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.parse.Parse.getApplicationContext;
 
@@ -33,7 +46,11 @@ public class CalorieIntakeFragment extends Fragment {
 
     public static final String TAG = "CalorieIntakeFragment";
     private FragmentCalorieIntakeBinding binding;
+    private ParseUser user;
+    private TextView tvCalorieDisplay;
     private TextView tvCalorieGoal;
+    private GraphView gvCalStats;
+    private JSONArray calArray;
 
 
     public CalorieIntakeFragment() {
@@ -53,14 +70,16 @@ public class CalorieIntakeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final TextView tvCalorieDisplay = binding.tvCalorieDisplay;
+        tvCalorieDisplay = binding.tvCalorieDisplay;
         tvCalorieGoal = binding.tvCalorieGoal;
+        gvCalStats = binding.gvCalStats;
+        final Button btnStartDay = binding.btnStartDay;
         final Button btnLogout = binding.btnLogout;
 
         Log.i(TAG, ParseUser.getCurrentUser().getUsername());
 
         ParseUser.getCurrentUser().fetchInBackground();
-        final ParseUser user = ParseUser.getCurrentUser();
+        user = ParseUser.getCurrentUser();
 
         if (String.valueOf(user.getInt("calIntake")) == null){
             Log.i(TAG, "Nothing on parse to retrieve");
@@ -78,6 +97,30 @@ public class CalorieIntakeFragment extends Fragment {
             }
         });
 
+        calArray = user.getJSONArray("calArray");
+        if (calArray == null) {
+            calArray = new JSONArray();
+            calArray.put(0);
+            calArray.put(0);
+        }
+
+        try {
+            displayGraph();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        btnStartDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    startDay();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +130,61 @@ public class CalorieIntakeFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
+
+    }
+
+    private void startDay() throws JSONException {
+        gvCalStats.removeAllSeries();
+        calArray.remove(0);
+        calArray.put(user.getInt("calIntake"));
+        user.put("calIntake", 0);
+        user.put("calArray", calArray);
+        tvCalorieDisplay.setText("0");
+        user.pinInBackground();
+        user.saveEventually();
+        displayGraph();
+    }
+
+    private void displayGraph() throws JSONException {
+        gvCalStats.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if ((int) value != value){
+                    return "";
+                }
+                if (isValueX){
+                    switch ((int) value) {
+                        case -2:
+                            return "Two Days Ago";
+                        case -1:
+                            return "Yesterday";
+                        case 0:
+                            return "Today";
+                    }
+                } else {
+                    return super.formatLabel(value, isValueX);
+                }
+                return "";
+            }
+        });
+
+        gvCalStats.setTitle("Calorie Intake Graph");
+
+        LineGraphSeries<DataPoint> goalLine = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(-2, user.getInt("calGoal")),
+                new DataPoint(-1, user.getInt("calGoal")),
+                new DataPoint(0, user.getInt("calGoal"))
+        });
+        goalLine.setColor(Color.MAGENTA);
+        gvCalStats.addSeries(goalLine);
+
+        PointsGraphSeries<DataPoint> intakeBar = new PointsGraphSeries<>(new DataPoint[]{
+                new DataPoint(-2, calArray.getInt(0)),
+                new DataPoint(-1, calArray.getInt(1)),
+                new DataPoint(0, user.getInt("calIntake"))
+        });
+        gvCalStats.addSeries(intakeBar);
 
 
     }
