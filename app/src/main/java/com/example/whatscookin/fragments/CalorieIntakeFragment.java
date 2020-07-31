@@ -24,7 +24,6 @@ import com.example.whatscookin.databinding.FragmentCalorieIntakeBinding;
 import com.example.whatscookin.databinding.PopupNumberBoxBinding;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
@@ -33,8 +32,6 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.Calendar;
-import java.util.Date;
 
 import static com.parse.Parse.getApplicationContext;
 
@@ -170,6 +167,13 @@ public class CalorieIntakeFragment extends Fragment {
         });
 
         gvCalStats.setTitle("Calorie Intake Graph");
+
+        gvCalStats.getViewport().setMinX(-2);
+        gvCalStats.getViewport().setMaxX(0);
+        gvCalStats.getViewport().setMinY(0);
+
+        gvCalStats.getViewport().setScalable(true);
+        gvCalStats.getViewport().setScalableY(true);
 
         LineGraphSeries<DataPoint> goalLine = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(-2, user.getInt("calGoal")),
