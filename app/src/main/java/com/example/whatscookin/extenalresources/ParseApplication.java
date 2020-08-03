@@ -31,17 +31,4 @@ public class ParseApplication extends Application {
                 .server("https://enriquemontas-whats-cookin.herokuapp.com/parse/")
                 .enableLocalDataStore().build());
     }
-
-    // simple message to ping a server and check if the user is offline
-    public static boolean isOffline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return !(exitValue == 0);
-        }
-        catch (IOException | InterruptedException e)          { e.printStackTrace(); }
-
-        return true;
-    }
 }

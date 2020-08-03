@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.example.whatscookin.ActivityUtils;
 import com.example.whatscookin.OnSwipeTouchListener;
 import com.example.whatscookin.adapters.TagAdapter;
 import com.example.whatscookin.databinding.PopupTagsBinding;
@@ -36,6 +37,7 @@ import com.example.whatscookin.adapters.FoodAdapter;
 import com.example.whatscookin.R;
 import com.example.whatscookin.activities.AddFoodActivity;
 import com.example.whatscookin.databinding.FragmentHomeBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -162,8 +164,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onViewCreated(view, savedInstanceState);
 
         // temporary code to transition to the add page
-        final Button btn = binding.btn;
-        btn.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton fabAdd = binding.fabAdd;
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent(getContext(), AddFoodActivity.class);
@@ -260,7 +262,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         query.setLimit(QUERY_LIMIT);
         query.addAscendingOrder(Food.KEY_NAME);
 
-        if (ParseApplication.isOffline()){
+        if (ActivityUtils.isOffline()){
             query.fromLocalDatastore();
         }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.whatscookin.ActivityUtils;
 import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Recipe;
 import com.example.whatscookin.databinding.ActivityRecipeDetailBinding;
@@ -55,7 +56,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         fabView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ParseApplication.isOffline()){
+                if (ActivityUtils.isOffline()){
                     Toast.makeText(RecipeDetailActivity.this, "need internet for this", Toast.LENGTH_SHORT).show();
                 }
                 webView.setVisibility(View.VISIBLE);

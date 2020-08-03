@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setLogo(R.drawable.logo_invert);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         final BottomNavigationView bottomNavigation = binding.bottomNavigation;
 
         final FragmentManager fragmentManager = getSupportFragmentManager();

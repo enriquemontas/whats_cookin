@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.whatscookin.ActivityUtils;
 import com.example.whatscookin.Keys;
 import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
@@ -91,7 +92,7 @@ public class AddFoodActivity extends AppCompatActivity {
             }
         });
 
-        if (ParseApplication.isOffline()){
+        if (ActivityUtils.isOffline()){
             btnScan.setVisibility(View.GONE);
         } else {
             btnScan.setVisibility(View.VISIBLE);

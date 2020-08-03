@@ -2,17 +2,23 @@ package com.example.whatscookin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.whatscookin.ActivityUtils;
+import com.example.whatscookin.R;
 import com.example.whatscookin.databinding.ActivityLoginBinding;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -44,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         final TextView tvSignUp = binding.tvSignUp;
+        final ImageView ivLogo = binding.ivLogo;
+        
+        if (isDarkMode()){
+            Glide.with(getApplicationContext()).load(R.drawable.logo_invert).into(ivLogo);
+        }
         etUsername = binding.etUsername;
         etPassword = binding.etPassword;
         btnLogin = binding.btnLogin;
@@ -76,6 +87,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean isDarkMode(){
+        int nightModeFlags =
+                getApplicationContext().getResources().getConfiguration().uiMode &
+                        Configuration.UI_MODE_NIGHT_MASK;
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
     }
 
 
