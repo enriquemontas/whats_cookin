@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.whatscookin.databinding.ActivityLoginBinding;
@@ -42,22 +43,18 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        final Switch swSignUp = binding.switchSignUp;
+        final TextView tvSignUp = binding.tvSignUp;
         etUsername = binding.etUsername;
         etPassword = binding.etPassword;
         btnLogin = binding.btnLogin;
         btnSignUp = binding.btnSignUp;
 
-        swSignUp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    btnLogin.setVisibility(View.GONE);
-                    btnSignUp.setVisibility(View.VISIBLE);
-                } else {
-                    btnLogin.setVisibility(View.VISIBLE);
-                    btnSignUp.setVisibility(View.GONE);
-                }
+            public void onClick(View view) {
+                btnLogin.setVisibility(View.GONE);
+                btnSignUp.setVisibility(View.VISIBLE);
+                tvSignUp.setVisibility(View.GONE);
             }
         });
 
