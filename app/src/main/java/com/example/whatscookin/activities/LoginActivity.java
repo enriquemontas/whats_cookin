@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final TextView tvSignUp = binding.tvSignUp;
         final ImageView ivLogo = binding.ivLogo;
-        
+
         if (isDarkMode()){
             Glide.with(getApplicationContext()).load(R.drawable.logo_invert).into(ivLogo);
         }

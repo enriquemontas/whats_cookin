@@ -188,7 +188,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                Toast.makeText(getContext(), "Swipe Right gesture detected", Toast.LENGTH_SHORT).show();
                 try {
                     tagPopup();
                 } catch (JSONException e) {
@@ -244,7 +243,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         Log.i(TAG, tags.toString());
 
-        // ToDo: add an animation for this popup window to follow the swipe
         TagAdapter tagAdapter = new TagAdapter(getContext(), tags);
         final RecyclerView rvTags = tagsBinding.rvTags;
         rvTags.setAdapter(tagAdapter);

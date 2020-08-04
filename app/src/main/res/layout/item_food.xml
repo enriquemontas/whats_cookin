@@ -11,5 +11,6 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:padding="3dp"
+        android:foreground="?android:attr/selectableItemBackground"
         tools:srcCompat="@tools:sample/avatars" />
 </GridLayout>
