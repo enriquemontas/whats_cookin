@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.whatscookin.ActivityUtils;
 import com.example.whatscookin.Keys;
-import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityAddFoodBinding;
 import com.google.android.gms.vision.Frame;
@@ -74,7 +73,6 @@ public class AddFoodActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        // TODO add barcode scanner
         final Button btnCaptureImage = binding.btnCaptureImage;
         final Button btnScan = binding.btnScan;
         final Button btnAdd = binding.btnAdd;
@@ -139,9 +137,9 @@ public class AddFoodActivity extends AppCompatActivity {
                             }
 
                             Frame frame = new Frame.Builder().setBitmap(takenImage).build();
-                            SparseArray<Barcode> barcodes = detector.detect(frame);
+                            SparseArray<Barcode> barcodeList = detector.detect(frame);
 
-                            barcode = barcodes.valueAt(0);
+                            barcode = barcodeList.valueAt(0);
                             queryBarcode();
                         } catch (IOException | JSONException e) {
                             Log.e(TAG, "query barcode: ", e);
@@ -283,6 +281,9 @@ public class AddFoodActivity extends AppCompatActivity {
                 etQuantityUnit.setText("");
                 tags = new JSONArray();
                 ivFoodImage.setImageResource(0);
+                final Intent intent = new Intent(AddFoodActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,8 +104,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 return false;
             }
         });
-        searchItem.expandActionView();
-        searchView.requestFocus();
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -163,7 +162,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // temporary code to transition to the add page
+        Log.i(TAG, "onViewCreated");
         final FloatingActionButton fabAdd = binding.fabAdd;
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +179,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         rvFridge.setAdapter(adapter);
         rvFridge.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
+        queryFridge();
+
         swipeLayout = binding.swipeContainer;
         swipeLayout.setOnRefreshListener(this);
 
@@ -195,8 +196,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
             }
         });
-
-        queryFridge();
     }
 
     /**
