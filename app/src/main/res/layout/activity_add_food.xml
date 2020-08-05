@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AddFoodActivity">
 
-    <Button
-        android:id="@+id/btnCaptureImage"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCaptureImage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_picture"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/camera"/>
 
     <ImageView
         android:id="@+id/ivFoodImage"
@@ -24,41 +27,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/what_food_is_this"/>
+        android:hint="@string/what_food_is_this"
+        android:visibility="gone"
+        android:layout_below="@+id/ivFoodImage"/>
 
     <EditText
         android:id="@+id/etQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Quantity" />
+        android:hint="Quantity"
+        android:visibility="gone"
+        android:layout_below="@id/etName"/>
 
     <EditText
         android:id="@+id/etQuantityUnit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Units for quantity" />
+        android:hint="Units for quantity"
+        android:visibility="gone"
+        android:layout_below="@id/etQuantity"/>
 
     <EditText
         android:id="@+id/etTag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tag your item ie Carb, Fruit, Poultry" />
+        android:hint="Tag your item ie Carb, Fruit, Poultry"
+        android:visibility="gone"
+        android:layout_below="@id/etQuantityUnit"/>
     
     <TextView
         android:id="@+id/tvTag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/btnScan"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scan Barcode" />
+        android:visibility="gone"
+        android:layout_below="@id/etTag"/>
 
-    <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScan"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_to_fridge"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/scanner"/>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/done"/>
+
+</RelativeLayout>

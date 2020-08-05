@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +17,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +30,7 @@ import com.example.whatscookin.databinding.ActivityAddFoodBinding;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -53,6 +54,8 @@ public class AddFoodActivity extends AppCompatActivity {
 
     public static final String TAG = "AddFoodActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 11;
+    private FloatingActionButton fabCaptureImage;
+    private FloatingActionButton fabScan;
     private EditText etName;
     private EditText etQuantity;
     private EditText etQuantityUnit;
@@ -65,6 +68,7 @@ public class AddFoodActivity extends AppCompatActivity {
     private TextView tvTag;
     private JSONArray tags = new JSONArray();
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +77,9 @@ public class AddFoodActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        final Button btnCaptureImage = binding.btnCaptureImage;
-        final Button btnScan = binding.btnScan;
-        final Button btnAdd = binding.btnAdd;
+        fabCaptureImage = binding.fabCaptureImage;
+        fabScan = binding.fabScan;
+        final FloatingActionButton fabAdd = binding.fabAdd;
         etName = binding.etName;
         etQuantity = binding.etQuantity;
         etQuantityUnit = binding.etQuantityUnit;
@@ -83,18 +87,73 @@ public class AddFoodActivity extends AppCompatActivity {
         tvTag = binding.tvTag;
         ivFoodImage = binding.ivFoodImage;
 
-        btnCaptureImage.setOnClickListener(new View.OnClickListener() {
+        fabCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchCamera();
+                fabCaptureImage.setVisibility(View.GONE);
+                if (ActivityUtils.isOffline()){
+                    fabScan.setVisibility(View.GONE);
+                } else {
+                    fabScan.setVisibility(View.VISIBLE);
+                }
+                etName.setVisibility(View.VISIBLE);
             }
         });
 
-        if (ActivityUtils.isOffline()){
-            btnScan.setVisibility(View.GONE);
-        } else {
-            btnScan.setVisibility(View.VISIBLE);
-        }
+        etName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch(i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            etQuantity.setVisibility(View.VISIBLE);
+                            fabScan.setVisibility(View.GONE);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        etQuantity.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch(i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            etQuantityUnit.setVisibility(View.VISIBLE);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        etQuantityUnit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch(i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            etTag.setVisibility(View.VISIBLE);
+                            tvTag.setVisibility(View.VISIBLE);
+                            fabAdd.setVisibility(View.VISIBLE);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         etTag.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -115,7 +174,7 @@ public class AddFoodActivity extends AppCompatActivity {
             }
         });
 
-        btnScan.setOnClickListener(new View.OnClickListener() {
+        fabScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // tries to scan an empty image
@@ -149,7 +208,7 @@ public class AddFoodActivity extends AppCompatActivity {
             }
         });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = etName.getText().toString();
@@ -219,6 +278,7 @@ public class AddFoodActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
