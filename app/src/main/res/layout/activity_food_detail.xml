@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".activities.FoodDetailActivity">
 
     <ImageView
@@ -15,62 +16,73 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivImage"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:text="Food Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <TextView
+        android:id="@+id/tvCalorieHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Calories Per Serving: "/>
 
     <TextView
         android:id="@+id/tvCalorieCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp" />
+        android:layout_toEndOf="@+id/tvCalorieHeading"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="20"/>
 
     <TextView
-        android:id="@+id/tvServings"
+        android:id="@+id/tvQuantityHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_toEndOf="@+id/tvCalorieCount"
-        android:layout_marginTop="5dp" />
+        android:layout_below="@+id/tvCalorieCount"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Number of Servings Remaining: "/>
 
     <TextView
         android:id="@+id/tvCurrentQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCalorieCount"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_toEndOf="@+id/tvQuantityHeading"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="12"/>
+
+    <TextView
+        android:id="@+id/tvUnitHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvQuantityHeading"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="One Serving is about: 1 "/>
 
     <TextView
         android:id="@+id/tvQuantityUnits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/tvCurrentQuantity"
-        android:layout_below="@+id/tvCalorieCount"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp" />
-
-    <Button
-        android:id="@+id/btnTags"
-        style="@style/Widget.AppCompat.Button"
-        android:backgroundTint="@color/cardview_light_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Tags" />
+        android:layout_toEndOf="@+id/tvUnitHeading"
+        android:layout_below="@+id/tvQuantityHeading"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="cup"/>
 
     <Button
         android:id="@+id/btnConsume"
-        style="@style/Widget.AppCompat.Button"
-        android:backgroundTint="@color/cardview_light_background"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -78,5 +90,21 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:text="Consume" />
+
+    <TextView
+        android:id="@+id/tvTagHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvUnitHeading"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Active Tags for this Item: " />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTagHeading"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

@@ -77,6 +77,8 @@ public class AddFoodActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        getSupportActionBar().setTitle("Add Food to Your Fridge");
+
         fabCaptureImage = binding.fabCaptureImage;
         fabScan = binding.fabScan;
         final FloatingActionButton fabAdd = binding.fabAdd;

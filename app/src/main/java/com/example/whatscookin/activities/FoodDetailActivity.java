@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.whatscookin.adapters.TagAdapter;
 import com.example.whatscookin.databinding.PopupNumberBoxBinding;
-import com.example.whatscookin.databinding.PopupTagsBinding;
 import com.example.whatscookin.databinding.PopupTextBoxBinding;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.databinding.ActivityFoodDetailBinding;
@@ -43,6 +42,7 @@ public class FoodDetailActivity extends AppCompatActivity {
     private TextView tvCurrentQuantity;
     private TextView tvQuantityUnits;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,19 +56,27 @@ public class FoodDetailActivity extends AppCompatActivity {
         tvCalorieCount = binding.tvCalorieCount;
         tvCurrentQuantity = binding.tvCurrentQuantity;
         tvQuantityUnits = binding.tvQuantityUnits;
-        final TextView tvServings = binding.tvServings;
+        final TextView tvQuantityUnits = binding.tvQuantityUnits;
         final Button btnConsume = binding.btnConsume;
-        final Button btnTags = binding.btnTags;
+        final RecyclerView rvTags = binding.rvTags;
 
         food = Parcels.unwrap(getIntent().getParcelableExtra(Food.class.getSimpleName()));
 
+        getSupportActionBar().setTitle(food.getName() + " Details");
+
         tvName.setText(food.getName());
         tvCalorieCount.setText(String.valueOf(food.getCalories()));
-        tvServings.setText(" per " + food.getQuantityUnit());
+        tvQuantityUnits.setText(food.getQuantityUnit());
         tvCurrentQuantity.setText(String.valueOf(food.getCurrentQuantity()));
         tvQuantityUnits.setText(food.getQuantityUnit());
         Context context = getApplicationContext();
         Glide.with(context).load(food.getImage().getUrl()).into(ivImage);
+
+        final JSONArray tags = food.getTags();
+
+        TagAdapter tagAdapter = new TagAdapter(FoodDetailActivity.this, tags);
+        rvTags.setAdapter(tagAdapter);
+        rvTags.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         tvName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,42 +116,6 @@ public class FoodDetailActivity extends AppCompatActivity {
                 consumePopup();
             }
         });
-
-        btnTags.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View view) {
-                tagPopup();
-            }
-        });
-
-    }
-
-    /**
-     *  popup a recycler view of all the tags for a given item, allowing the user to add and edit
-     */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void tagPopup() {
-        final PopupWindow popupWindow = new PopupWindow(FoodDetailActivity.this);
-        final PopupTagsBinding tagsBinding = PopupTagsBinding.inflate(getLayoutInflater());
-        final View view = tagsBinding.getRoot();
-
-        popupWindow.setContentView(view);
-
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        final RecyclerView rvTags = tagsBinding.rvTags;
-        final JSONArray tags = food.getTags();
-
-        TagAdapter tagAdapter = new TagAdapter(FoodDetailActivity.this, tags);
-        rvTags.setAdapter(tagAdapter);
-        rvTags.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
     }
 
