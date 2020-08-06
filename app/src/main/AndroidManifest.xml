@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.RecipeDetailActivity"></activity>
-        <activity android:name=".activities.RecipeViewActivity" />
+        <activity android:name=".activities.RecipeViewActivity" android:configChanges="uiMode"></activity>
         <activity android:name=".activities.FoodDetailActivity" />
 
         <provider

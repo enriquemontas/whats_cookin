@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="TextView"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/ivRecipe"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,6 +32,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
         android:text="TextView"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toEndOf="@+id/ivRecipe"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
@@ -38,9 +40,10 @@
         android:id="@+id/tvServings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/tvCalories"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toEndOf="@+id/ivRecipe"
+        app:layout_constraintTop_toBottomOf="@+id/tvCalories" />
 </androidx.constraintlayout.widget.ConstraintLayout>

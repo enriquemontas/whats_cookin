@@ -1,5 +1,6 @@
 package com.example.whatscookin.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             checkBox.setOnCheckedChangeListener(this);
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (b){
