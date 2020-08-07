@@ -19,27 +19,62 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivImage"
         android:layout_marginTop="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:text="Recipe"/>
+
+    <TextView
+        android:id="@+id/tvServingHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="5dp"
+        android:text="Number of Servings: " />
 
     <TextView
         android:id="@+id/tvServing"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
-        android:layout_marginTop="5dp"/>
+        android:layout_toEndOf="@+id/tvServingHeading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="5dp"
+        android:text="1"/>
+
+    <TextView
+        android:id="@+id/tvCalorieHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvServing"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="5dp"
+        android:text="Total Calories: "/>
 
     <TextView
         android:id="@+id/tvCalories"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvServing"
-        android:layout_marginTop="5dp" />
+        android:layout_toEndOf="@+id/tvCalorieHeading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="5dp"
+        android:text="700"/>
+
+    <TextView
+        android:id="@+id/tvIngredientHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCalories"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="Ingredients:"/>
 
     <TextView
         android:id="@+id/tvIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCalories"
+        android:layout_below="@+id/tvIngredientHeading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_marginTop="5dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,7 +86,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="view online"
-        app:srcCompat="@android:drawable/ic_menu_info_details" />
+        app:srcCompat="@android:drawable/ic_input_get" />
 
     <WebView
         android:id="@+id/webView"

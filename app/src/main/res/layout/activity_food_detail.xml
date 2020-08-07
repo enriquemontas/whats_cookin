@@ -21,7 +21,7 @@
         android:layout_below="@+id/ivImage"
         android:layout_marginTop="5dp"
         android:text="Food Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"/>
 
     <TextView
         android:id="@+id/tvCalorieHeading"

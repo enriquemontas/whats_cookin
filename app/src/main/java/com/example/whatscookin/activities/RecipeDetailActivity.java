@@ -7,13 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whatscookin.ActivityUtils;
-import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Recipe;
 import com.example.whatscookin.databinding.ActivityRecipeDetailBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -60,6 +60,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                     Toast.makeText(RecipeDetailActivity.this, "need internet for this", Toast.LENGTH_SHORT).show();
                 }
                 webView.setVisibility(View.VISIBLE);
+                webView.setWebViewClient(new WebViewClient());
                 webView.loadUrl(recipe.getUrl());
             }
         });
