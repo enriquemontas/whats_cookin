@@ -67,6 +67,7 @@ public class AddFoodActivity extends AppCompatActivity {
     private EditText etTag;
     private TextView tvTag;
     private JSONArray tags = new JSONArray();
+    private JSONObject product;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -207,6 +208,12 @@ public class AddFoodActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
+
+                try {
+                    populate(product);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -248,7 +255,6 @@ public class AddFoodActivity extends AppCompatActivity {
         final String responseData = response.body().string();
         JSONObject json = new JSONObject(responseData);
         final JSONObject product = json.getJSONArray("products").getJSONObject(0);
-        populate(product);
 
     }
 

@@ -46,6 +46,7 @@
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
         android:text="Login"
+        android:visibility="gone"
         style="@style/Widget.AppCompat.Button.Colored"
         android:background="@color/colorAccent"
         android:layout_below="@+id/etPassword" />
@@ -56,9 +57,9 @@
         android:layout_height="wrap_content"
         android:text="@string/new_here"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btnLogin"
+        android:layout_alignParentBottom="true"
         android:textColor="@color/colorAccent2"
-        android:layout_marginTop="30dp" />
+        android:layout_marginBottom="50dp" />
 
     <Button
         android:id="@+id/btnSignUp"

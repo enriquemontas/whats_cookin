@@ -50,16 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
-                        Toast.makeText(MainActivity.this,"HOME!", Toast.LENGTH_SHORT).show();
                         fragment = fragment1;
                         break;
                     case R.id.action_caloire_view:
-                        Toast.makeText(MainActivity.this,"Cal View!", Toast.LENGTH_SHORT).show();
                         fragment = fragment2;
                         break;
                     case R.id.action_recipe:
                     default:
-                        Toast.makeText(MainActivity.this,"Recipe!", Toast.LENGTH_SHORT).show();
                         fragment = fragment3;
                         break;
                 }

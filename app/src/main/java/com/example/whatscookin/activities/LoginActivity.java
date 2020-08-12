@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +56,23 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = binding.etPassword;
         btnLogin = binding.btnLogin;
         btnSignUp = binding.btnSignUp;
+
+        etPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch(i) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            btnLogin.setVisibility(View.VISIBLE);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override

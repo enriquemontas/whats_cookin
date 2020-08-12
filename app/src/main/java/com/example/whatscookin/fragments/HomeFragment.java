@@ -24,15 +24,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.example.whatscookin.ActivityUtils;
 import com.example.whatscookin.OnSwipeTouchListener;
 import com.example.whatscookin.adapters.TagAdapter;
 import com.example.whatscookin.databinding.PopupTagsBinding;
-import com.example.whatscookin.extenalresources.ParseApplication;
 import com.example.whatscookin.models.Food;
 import com.example.whatscookin.adapters.FoodAdapter;
 import com.example.whatscookin.R;
